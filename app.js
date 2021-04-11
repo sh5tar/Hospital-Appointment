@@ -41,6 +41,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', ((req, res) => {
     res.render("index", { userID: req.User.userID, type: req.User.type});
 }));
+app.get('/AddDoctor', ((req, res) => {
+  res.render("AddDoctor", { userID: req.User.userID, type: req.User.type});
+}));
+app.get('/AddHospital', ((req, res) => {
+  res.render("AddHospital", { userID: req.User.userID, type: req.User.type});
+}));
+app.get('/DoctorPerformence', ((req, res) => {
+  res.render("DoctorPerformence", { userID: req.User.userID, type: req.User.type});
+}));
+app.get('/HospitalPerformence', ((req, res) => {
+  res.render("HospitalPerformence", { userID: req.User.userID, type: req.User.type});
+}));
+app.get('/HospitalsPage', ((req, res) => {
+  res.render("HospitalPage", { userID: req.User.userID, type: req.User.type});
+}));
+app.get('/ManagersPage', ((req, res) => {
+  res.render("ManagersPage", { userID: req.User.userID, type: req.User.type});
+}));
 app.get('/login', ((req, res) => {
   if(req.User.userID){
     res.render("login",{userID:req.User.userID,type:req.User.type});
