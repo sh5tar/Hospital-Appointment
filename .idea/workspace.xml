@@ -20,9 +20,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c64c41c-054b-41f9-8601-213b3b5189d5" name="Default Changelist" comment="first try">
+      <change afterPath="$PROJECT_DIR$/public/assets/img/ProfilePictures/ProfilePic1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/img/ProfilePictures/ProfilePic2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/img/ProfilePictures/ProfilePic3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/Appointment.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/Schedule.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/ScheduleAppointment.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/AddDoctor.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/AddDoctor.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/AddHospital.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/AddHospital.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/AddManager.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/AddManager.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/HospitalsPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/HospitalsPage.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/ManagersPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/ManagersPage.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/partials/header.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/partials/header.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/register.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/register.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/table.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/DoctorsPage.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,10 +52,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
-  </component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="a8c6eafd-7572-4a95-874b-4b4a9ae89e36" />
   </component>
   <component name="ProjectId" id="1qoKn5KjBbbtZmG2yHUb2inaccR" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -70,20 +79,25 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\WebstormProjects\senior-project\public\assets\img\ProfilePictures" />
       <recent name="C:\Users\96656\WebstormProjects\seinor-project\public" />
       <recent name="C:\Users\96656\WebstormProjects\seinor-project\views" />
       <recent name="C:\Users\96656\WebstormProjects\seinor-project" />
     </key>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.AddDoctor.ejs">
+  <component name="RunManager" selected="Node.js.app.js">
     <configuration name="AddDoctor.ejs" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/senior-project/views/AddDoctor.ejs" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration name="table.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/senior-project/views/table.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
+    <configuration name="app.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/app.js" working-dir="$PROJECT_DIR$">
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.app.js" />
         <item itemvalue="JavaScript Debug.AddDoctor.ejs" />
         <item itemvalue="JavaScript Debug.table.html" />
       </list>
@@ -153,42 +167,39 @@
       <screen x="1920" y="0" width="1536" height="824" />
     </state>
     <state x="2469" y="117" key="Github.UntrackedFilesDialog/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618076790735" />
-    <state width="1899" height="69" key="GridCell.Tab.0.bottom" timestamp="1618092680879">
+    <state width="1899" height="311" key="GridCell.Tab.0.bottom" timestamp="1618189050416">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1515" height="367" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618075325166" />
     <state width="1515" height="135" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618076249395" />
-    <state width="1899" height="69" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618092680879" />
-    <state width="1899" height="69" key="GridCell.Tab.0.center" timestamp="1618092680879">
+    <state width="1899" height="311" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618189050416" />
+    <state width="1899" height="311" key="GridCell.Tab.0.center" timestamp="1618189050415">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1515" height="367" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618075325166" />
     <state width="1515" height="135" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618076249395" />
-    <state width="1899" height="69" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618092680879" />
-    <state width="1899" height="69" key="GridCell.Tab.0.left" timestamp="1618092680879">
+    <state width="1899" height="311" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618189050415" />
+    <state width="1899" height="311" key="GridCell.Tab.0.left" timestamp="1618189050415">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1515" height="367" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618075325166" />
     <state width="1515" height="135" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618076249395" />
-    <state width="1899" height="69" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618092680879" />
-    <state width="1899" height="69" key="GridCell.Tab.0.right" timestamp="1618092680879">
+    <state width="1899" height="311" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618189050415" />
+    <state width="1899" height="311" key="GridCell.Tab.0.right" timestamp="1618189050415">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1515" height="367" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618075325166" />
     <state width="1515" height="135" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618076249395" />
-    <state width="1899" height="69" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618092680879" />
-    <state x="2197" y="57" key="SettingsEditor" timestamp="1618079160599">
-      <screen x="1920" y="0" width="1536" height="824" />
+    <state width="1899" height="311" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618189050415" />
+    <state x="346" y="72" key="SettingsEditor" timestamp="1618182743472">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="2197" y="57" key="SettingsEditor/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618079160599" />
+    <state x="346" y="72" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618182743472" />
     <state x="2281" y="145" key="Vcs.Push.Dialog.v2" timestamp="1618077017928">
       <screen x="1920" y="0" width="1536" height="824" />
     </state>
     <state x="2281" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618077017928" />
-    <state x="2506" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1618181057769">
-      <screen x="1920" y="0" width="1536" height="824" />
-    </state>
-    <state x="2506" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618181057769" />
     <state x="2351" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1618079141862">
       <screen x="1920" y="0" width="1536" height="824" />
     </state>

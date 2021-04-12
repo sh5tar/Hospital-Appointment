@@ -44,6 +44,15 @@ app.get('/', ((req, res) => {
 app.get('/AddDoctor', ((req, res) => {
   res.render("AddDoctor", { userID: req.User.userID, type: req.User.type});
 }));
+app.get('/AddManager', ((req, res) => {
+  res.render("AddManager", { userID: req.User.userID, type: req.User.type});
+}));
+app.get('/DoctorsPage', ((req, res) => {
+  res.render("DoctorsPage", { userID: req.User.userID, type: req.User.type});
+}));
+app.get('/DoctorsPage', ((req, res) => {
+  res.render("DoctorsPage", { userID: req.User.userID, type: req.User.type});
+}));
 app.get('/AddHospital', ((req, res) => {
   res.render("AddHospital", { userID: req.User.userID, type: req.User.type});
 }));
@@ -54,7 +63,7 @@ app.get('/HospitalPerformence', ((req, res) => {
   res.render("HospitalPerformence", { userID: req.User.userID, type: req.User.type});
 }));
 app.get('/HospitalsPage', ((req, res) => {
-  res.render("HospitalPage", { userID: req.User.userID, type: req.User.type});
+  res.render("HospitalsPage", { userID: req.User.userID, type: req.User.type});
 }));
 app.get('/ManagersPage', ((req, res) => {
   res.render("ManagersPage", { userID: req.User.userID, type: req.User.type});
@@ -163,7 +172,7 @@ app.post("/register",function(req,res){
   });
   console.log(req.body.Gender)
 
-  connection.query('insert into Users () values(null,?,?,?,"Admin",?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)',[req.body.Fname,req.body.Lname,req.body.GovID,req.body.Uname,result,req.body.Gender,req.body.DoB,req.body.ContactN,req.body.Building+", "+req.body.Street+", "+req.body.City,req.body.Email, req.body.City], function (error, results, fields) {
+  connection.query('insert into Users () values(null,?,?,?,"Patient",?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)',[req.body.Fname,req.body.Lname,req.body.GovID,req.body.Uname,result,req.body.Gender,req.body.DoB,req.body.ContactN,req.body.Building+", "+req.body.Street+", "+req.body.City,req.body.Email, req.body.City], function (error, results, fields) {
     if (error) throw error;
   });
 
