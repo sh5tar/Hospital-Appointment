@@ -20,22 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c64c41c-054b-41f9-8601-213b3b5189d5" name="Default Changelist" comment="first try">
-      <change afterPath="$PROJECT_DIR$/public/assets/img/ProfilePictures/ProfilePic1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/assets/img/ProfilePictures/ProfilePic2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/assets/img/ProfilePictures/ProfilePic3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/Appointment.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/Schedule.ejs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/ScheduleAppointment.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/AddDoctor.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/AddDoctor.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/AddHospital.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/AddHospital.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/AddManager.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/AddManager.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/HospitalsPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/HospitalsPage.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/ManagersPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/ManagersPage.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/partials/header.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/partials/header.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/register.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/register.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/table.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/DoctorsPage.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,28 +153,28 @@
       <screen x="1920" y="0" width="1536" height="824" />
     </state>
     <state x="2469" y="117" key="Github.UntrackedFilesDialog/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618076790735" />
-    <state width="1899" height="311" key="GridCell.Tab.0.bottom" timestamp="1618189050416">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1515" height="135" key="GridCell.Tab.0.bottom" timestamp="1618286855054">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="367" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618075325166" />
+    <state width="1515" height="135" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618286855054" />
     <state width="1515" height="135" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618076249395" />
     <state width="1899" height="311" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618189050416" />
-    <state width="1899" height="311" key="GridCell.Tab.0.center" timestamp="1618189050415">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1515" height="135" key="GridCell.Tab.0.center" timestamp="1618286855054">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="367" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618075325166" />
+    <state width="1515" height="135" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618286855054" />
     <state width="1515" height="135" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618076249395" />
     <state width="1899" height="311" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618189050415" />
-    <state width="1899" height="311" key="GridCell.Tab.0.left" timestamp="1618189050415">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1515" height="135" key="GridCell.Tab.0.left" timestamp="1618286855054">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="367" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618075325166" />
+    <state width="1515" height="135" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618286855054" />
     <state width="1515" height="135" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618076249395" />
     <state width="1899" height="311" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618189050415" />
-    <state width="1899" height="311" key="GridCell.Tab.0.right" timestamp="1618189050415">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1515" height="135" key="GridCell.Tab.0.right" timestamp="1618286855054">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1515" height="367" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618075325166" />
+    <state width="1515" height="135" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1536.824@0.0.1536.824" timestamp="1618286855054" />
     <state width="1515" height="135" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1536.824@1920.0.1536.824" timestamp="1618076249395" />
     <state width="1899" height="311" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618189050415" />
     <state x="346" y="72" key="SettingsEditor" timestamp="1618182743472">

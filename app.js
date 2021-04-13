@@ -38,47 +38,85 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.get('/', ((req, res) => {
+app.get('/', (function (req, res)  {
     res.render("index", { userID: req.User.userID, type: req.User.type});
 }));
-app.get('/AddDoctor', ((req, res) => {
-  res.render("AddDoctor", { userID: req.User.userID, type: req.User.type});
-}));
-app.get('/AddManager', ((req, res) => {
-  res.render("AddManager", { userID: req.User.userID, type: req.User.type});
-}));
-app.get('/DoctorsPage', ((req, res) => {
-  res.render("DoctorsPage", { userID: req.User.userID, type: req.User.type});
-}));
-app.get('/DoctorsPage', ((req, res) => {
-  res.render("DoctorsPage", { userID: req.User.userID, type: req.User.type});
-}));
-app.get('/AddHospital', ((req, res) => {
-  res.render("AddHospital", { userID: req.User.userID, type: req.User.type});
-}));
-app.get('/DoctorPerformence', ((req, res) => {
-  res.render("DoctorPerformence", { userID: req.User.userID, type: req.User.type});
-}));
-app.get('/HospitalPerformence', ((req, res) => {
-  res.render("HospitalPerformence", { userID: req.User.userID, type: req.User.type});
-}));
-app.get('/HospitalsPage', ((req, res) => {
-  res.render("HospitalsPage", { userID: req.User.userID, type: req.User.type});
-}));
-app.get('/ManagersPage', ((req, res) => {
-  res.render("ManagersPage", { userID: req.User.userID, type: req.User.type});
-}));
-app.get('/login', ((req, res) => {
-  if(req.User.userID){
-    res.render("login",{userID:req.User.userID,type:req.User.type});
+app.get('/AddDoctor', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    res.render("AddDoctor", { userID: req.User.userID, type: req.User.type});
   }else{
-    res.render("login",{userID:0,type:null});
+    res.redirect("/")
+  }
+}));
+app.get('/AddManager', (function (req, res)  {
+  if (req.User.Type=="Admin"){
+    res.render("AddManager", { userID: req.User.userID, type: req.User.type});
+  }else{
+    res.redirect("/")
+  }
+}));
+app.get('/DoctorsPage', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    res.render("DoctorsPage", { userID: req.User.userID, type: req.User.type});
+  }else{
+    res.redirect("/")
+  }
+}));
+app.get('/AddHospital', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    res.render("AddHospital", { userID: req.User.userID, type: req.User.type});
+  }else{
+    res.redirect("/")
+  }
+}));
+app.get('/DoctorPerformence', (function (req, res) {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    connection.query("select Fname,Lname,GovID,Username,Gender,DoB,ContactNo,Address,Email,Cname as City from Users Inner join Cities on Cities.CID=Users.City Where UID=?",[req.User.userID] , function (error, results, fields) {
+      console.log(results[0].DoB)
+      dd=new Date(results[0].DoB)
+      console.log(dd)
+      date1=dd.getFullYear()+"/"+dd.getMonth()+"/"+dd.getDate()
+      res.render("DoctorPerformence", { userID: req.User.userID, type: req.User.type});
+    })}
+
+  else{
+    res.redirect("/")
+  }
+}));
+app.get('/HospitalPerformence', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    res.render("HospitalPerformence", { userID: req.User.userID, type: req.User.type});
+  }else{
+    res.redirect("/")
+  }
+}));
+app.get('/HospitalsPage', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    res.render("HospitalsPage", { userID: req.User.userID, type: req.User.type});
+  }else{
+    res.redirect("/")
+  }
+}));
+app.get('/ManagersPage', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    res.render("ManagersPage", { userID: req.User.userID, type: req.User.type});
+  }else{
+    res.redirect("/")
   }
 
 }));
-app.get('/register', ((req, res) => {
+app.get('/login', (function (req, res)  {
   if(req.User.userID){
-    res.render("index",{userID:req.User.userID,type:req.User.type});
+    res.redirect("/");
+  }else{
+
+    res.render("login",{userID:req.User.userID,type:req.User.type});
+  }
+
+}));
+app.get('/register', (function (req, res) {
+  if(req.User.userID){
+    res.redirect("/");
   }else{
     res.render("register",{userID:0,type:null});
   }
@@ -97,7 +135,7 @@ app.get("/blank",function(request,response){
 app.get("/profile",function(req,res){
   console.log(req.User)
   if(req.User.userID){
-    connection.query("select Fname,Lname,GovID,Username,Gender,DoB,ContactNo,Address,Email,City from Users Where UID=?",[req.User.userID] , function (error, results, fields) {
+    connection.query("select Fname,Lname,GovID,Username,Gender,DoB,ContactNo,Address,Email,Cname as City from Users Inner join Cities on Cities.CID=Users.City Where UID=?",[req.User.userID] , function (error, results, fields) {
       console.log(results[0].DoB)
       dd=new Date(results[0].DoB)
       console.log(dd)
@@ -108,7 +146,7 @@ app.get("/profile",function(req,res){
     res.redirect("/")
   }
 });
-app.get('/usersPage/:id', ((req, res) => {
+app.get('/usersPage/:id', (function (req, res)  {
   if(req.User.type=="Manager"||req.User.type=="Admin"){
     connection.query('SELECT * from Users where ID=?',[req.params.id], function (error, results, fields) {
       if (error)
