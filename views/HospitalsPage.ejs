@@ -29,20 +29,15 @@
                                     <th>Location</th>
                                 </tr>
                                 </thead>
+                                <%i.forEach(function(i){%>
                                 <tbody>
                                 <tr>
-                                    <td>Qatif Hospital</td>
-                                    <td>Qatif</td>
-                                    <td>Al Badia, Al Qatif 32656</td>
+                                    <td><%=i.HName%></td>
+                                    <td><%=i.Cname%></td>
+                                    <td><%=i.Location%></td>
                                 </tr>
                                 </tbody>
-                                <tbody>
-                                <tr>
-                                    <td>Dammam Hospital</td>
-                                    <td>Dammam</td>
-                                    <td>Al Muraikabat, Dammam 32253</td>
-                                </tr>
-                                </tbody>
+                                <%})%>
                             </table>
                             <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="AddHospital"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Add Hospital</a>
                         </div>

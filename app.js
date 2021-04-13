@@ -57,7 +57,10 @@ app.get('/AddManager', (function (req, res)  {
 }));
 app.get('/DoctorsPage', (function (req, res)  {
   if (req.User.type=="Admin"||req.User.type=="Manager"){
-    res.render("DoctorsPage", { userID: req.User.userID, type: req.User.type});
+    connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID",[req.User.userID] , function (error, results, fields) {
+    res.render("DoctorsPage", { i:results,userID: req.User.userID, type: req.User.type});
+
+    });
   }else{
     res.redirect("/")
   }
@@ -92,18 +95,23 @@ app.get('/HospitalPerformence', (function (req, res)  {
 }));
 app.get('/HospitalsPage', (function (req, res)  {
   if (req.User.type=="Admin"||req.User.type=="Manager"){
-    res.render("HospitalsPage", { userID: req.User.userID, type: req.User.type});
+    connection.query("SELECT HID,HName,Cname,Location from Hospitals Inner JOIN Cities on Hospitals.CID = Cities.CID" , function (error, results, fields) {
+      res.render("HospitalsPage", { i:results,userID: req.User.userID, type: req.User.type});
+
+    });
   }else{
     res.redirect("/")
   }
 }));
 app.get('/ManagersPage', (function (req, res)  {
   if (req.User.type=="Admin"||req.User.type=="Manager"){
-    res.render("ManagersPage", { userID: req.User.userID, type: req.User.type});
+    connection.query("SELECT Managers.UID, Users.Fname,Users.Lname,Hospitals.HName,Users.DateOfCreation from Managers Inner JOIN Users on Managers.UID=Users.UID Inner JOIN Hospitals on Managers.HID= Hospitals.HID" , function (error, results, fields) {
+      res.render("ManagersPage", { i:results,userID: req.User.userID, type: req.User.type});
+
+    });
   }else{
     res.redirect("/")
   }
-
 }));
 app.get('/login', (function (req, res)  {
   if(req.User.userID){

@@ -30,22 +30,18 @@
                                             <th>Date of employment</th>
                                         </tr>
                                     </thead>
+                                    <%i.forEach(function(i){%>
+                                    <%dd=new Date(i.DateOfCreation)%>
                                     <tbody>
                                         <tr>
-                                            <td><img class="rounded-circle mr-2" width="30" height="30" src="../public/assets/img/avatars/avatar1.jpeg"><a href="DoctorPerformence">Ahmed Alali</a></td>
-                                            <td>Dermatologists</td>
-                                            <td>5 year</td>
-                                            <td>4/11/2021</td>
+                                            <td><img class="rounded-circle mr-2" width="30" height="30" src="../public/assets/img/avatars/avatar1.jpeg"><a href="DoctorPerformence"><%=i.Fname +" "+i.Lname%></a></td>
+                                            <td><%=i.Specialty%></td>
+                                            <td><%=i.Experience%></td>
+                                            <td><%=dd.getFullYear()+"/"+dd.getMonth()+"/"+dd.getDate()%></td>
                                         </tr>
                                     </tbody>
-                                    <tbody>
-                                    <tr>
-                                        <td><img class="rounded-circle mr-2" width="30" height="30" src="../public/assets/img/avatars/avatar1.jpeg"><a href="DoctorPerformence">Ahmed Alali</a></td>
-                                        <td>Cardiologists</td>
-                                        <td>7 year</td>
-                                        <td>2/11/2021</td>
-                                    </tr>
-                                    </tbody>
+                                    <%})%>
+
                                 </table>
                                 <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="AddDoctor"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Add Doctor</a>
                             </div>
