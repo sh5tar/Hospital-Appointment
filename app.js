@@ -8,13 +8,39 @@ var logger = require('morgan');
 var sessions=require("client-sessions");
 var bodyParser=require("body-parser");
 
+var db_config = {
+  host: 'remotemysql.com',
+  user: 'PFMxEKMB8O',
+  password: 'bpkGFTVvRQ',
+  database: 'PFMxEKMB8O'
+};
+
+var connection;
+
+function handleDisconnect() {
+  connection = mysql.createConnection(db_config); // Recreate the connection, since
+                                                  // the old one cannot be reused.
+
+  connection.connect(function(err) {              // The server is either down
+    if(err) {                                     // or restarting (takes a while sometimes).
+      console.log('error when connecting to db:', err);
+      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+    }                                     // to avoid a hot loop, and to allow our node script to
+  });                                     // process asynchronous requests in the meantime.
+                                          // If you're also serving http, display a 503 error.
+  connection.on('error', function(err) {
+    console.log('db error', err);
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+      handleDisconnect();                         // lost due to either server restart, or a
+    } else {                                      // connnection idle timeout (the wait_timeout
+      throw err;                                  // server variable configures this)
+    }
+  });
+}
+
+handleDisconnect();
 var app = express();
-var connection = mysql.createConnection({
-  host     : 'remotemysql.com',
-  user     : 'PFMxEKMB8O',
-  password : 'bpkGFTVvRQ',
-  database : 'PFMxEKMB8O'
-});
+
 app.use(sessions({
   cookieName: 'User',
   secret: 'AHMADISHERE' ,
@@ -43,8 +69,14 @@ app.get('/', (function (req, res)  {
 }));
 app.get('/AddDoctor', (function (req, res)  {
   if (req.User.type=="Admin"||req.User.type=="Manager"){
-    res.render("AddDoctor", { userID: req.User.userID, type: req.User.type});
-  }else{
+    connection.query("select CID,Cname from Cities" , function (error, results, fields) {
+      if (error) throw error;
+      connection.query("select * from Specialty",function (error1,results1,fields1) {
+        if (error1) throw error1;
+        res.render("AddDoctor", { Sp:results1,Cities:results,userID: req.User.userID, type: req.User.type});
+      })
+
+    })}else{
     res.redirect("/")
   }
 }));
@@ -58,7 +90,8 @@ app.get('/AddManager', (function (req, res)  {
 app.get('/DoctorsPage', (function (req, res)  {
   if (req.User.type=="Admin"||req.User.type=="Manager"){
     connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID",[req.User.userID] , function (error, results, fields) {
-    res.render("DoctorsPage", { i:results,userID: req.User.userID, type: req.User.type});
+      if (error) throw error;
+      res.render("DoctorsPage", { i:results,userID: req.User.userID, type: req.User.type});
 
     });
   }else{
@@ -67,8 +100,10 @@ app.get('/DoctorsPage', (function (req, res)  {
 }));
 app.get('/AddHospital', (function (req, res)  {
   if (req.User.type=="Admin"||req.User.type=="Manager"){
-    res.render("AddHospital", { userID: req.User.userID, type: req.User.type});
-  }else{
+    connection.query("select CID,Cname from Cities" , function (error, results, fields) {
+      if (error) throw error;
+    res.render("AddHospital", { Cities:results,userID: req.User.userID, type: req.User.type});
+  })}else{
     res.redirect("/")
   }
 }));
@@ -238,18 +273,42 @@ app.post("/deleteDoctor", function (req,res){
     });
   }
 });
-app.post("/addDoctor",function (req,res){
+app.post("/AddDoctor",function (req,res){
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
   var result;
   scrypt(req.body.password,"AhmedAndMustafa",{N:4096,r:8,p:1,dkLen:150,encoding: 'hex'}, function(derivedKey) {
     result=derivedKey;
   });
-  connection.query('insert into Users () values(null,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)',[req.body.Fname,req.body.Lname,req.body.GovID,req.body.Gender,req.body.Type,req.body.userName,result,req.body.Dob,req.body.phoneNumber,req.body.Address,req.body.Email], function (error, results, fields) {
+  connection.query('insert into Users () values(null,?,?,?,?,"Doctor",?,?,?,?,?,?,CURRENT_TIMESTAMP)',[req.body.Fname,req.body.Lname,req.body.GovID,req.body.Gender,req.body.Type,req.body.Username,result,req.body.Dob,req.body.ContactNo,req.body.Address,req.body.Email], function (error, results, fields) {
     if (error) throw error;
     connection.query('insert into Doctors () values(null,?,?,?,?,5)',[results.insertId,req.body.HID,req.body.Dname,req.body.Specialty, req.body.Experience], function (erro, result, field) {
       if (erro) throw erro;
     });
   });
+}
 });
+app.post("/AddManager",function (req,res){
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    var result;
+    scrypt(req.body.password,"AhmedAndMustafa",{N:4096,r:8,p:1,dkLen:150,encoding: 'hex'}, function(derivedKey) {
+      result=derivedKey;
+    });
+    connection.query('insert into Users () values(null,?,?,?,?,"Manager",?,?,?,?,?,?,CURRENT_TIMESTAMP)',[req.body.Fname,req.body.Lname,req.body.GovID,req.body.Gender,req.body.userName,result,req.body.Dob,req.body.phoneNumber,req.body.Address,req.body.Email], function (error, results, fields) {
+      if (error) throw error;
+      connection.query('insert into Managers () values(null,?,5,?)',[results.insertId,req.body.HID], function (erro, result, field) {
+        if (erro) throw erro;
+      });
+    });
+  }
+});
+app.post("/AddHospital",function (req,res){
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    connection.query('insert into Hospitals () values(null,?,?,?)',[req.body.HName,req.body.Location,req.body.CID], function (error, results, fields) {
+      if (error) throw error;
+    })
+  }
+
+})
 app.post("/Appointments-Schedule",function (req, res) {
   list=[]
   doctor=[]

@@ -26,7 +26,7 @@
                                             <input class="form-control" type="text" name="Username"></div>
                                     </div>
                                     <div class="col">
-                                        <div class="form-group"><label for="govid"><strong>Government ID</strong></label>
+                                        <div class="form-group"><label for="Govid"><strong>Government ID</strong></label>
                                             <input class="form-control" type="text" id="govid" name="GovID"></div>
                                     </div>
                                 </div>
@@ -48,8 +48,13 @@
                                     </div>
                                 <div class="form-row">
                                     <div class="col">
-                                        <div class="form-group"><label for="City"><strong>City</strong></label>
-                                            <input class="form-control" type="text" id="City" name="City"></div>
+                                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="CID">
+
+                                                <%Cities.forEach(function (i){%>
+                                                <option value="<%=i.CID%>>" selected=""><%=i.Cname%></option>
+                                                <%})%>
+
+                                            </select>&nbsp;</div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group"><label for="Address"><strong>Address</strong></label>
@@ -58,8 +63,13 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="col">
-                                        <div class="form-group"><label for="Specialty"><strong>Specialty</strong></label>
-                                            <input class="form-control" type="text" id="number" name="Specialty"></div>
+                                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>Specialty&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="CID">
+
+                                                <%Sp.forEach(function (i){%>
+                                                <option value="<%=i.SPID%>>" selected=""><%=i.Specialty%></option>
+                                                <%})%>
+
+                                            </select>&nbsp;</div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group"><label for="Experience"><strong>Experience</strong></label>
