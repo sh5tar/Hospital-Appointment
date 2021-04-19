@@ -17,12 +17,13 @@
                                     </div>
                                     <div class="col">
                                         <div class="col-md-6 text-nowrap">
-                                            <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp;<select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm">
-                                                        <option value="10" selected="">10</option>
-                                                        <option value="25">25</option>
-                                                        <option value="50">50</option>
-                                                        <option value="100">100</option>
-                                                    </select>&nbsp;</label></div>
+                                            <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="CID">
+
+                                                        <%Cities.forEach(function (i){%>
+                                                        <option value="<%=i.CID%>>" selected=""><%=i.Cname%></option>
+                                                        <%})%>
+
+                                                    </select>&nbsp;</div>
                                         </div>
                                     </div>
                                 </div>
