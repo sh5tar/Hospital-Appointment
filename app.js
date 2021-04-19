@@ -4,6 +4,8 @@ var path = require('path');
 var mysql=require("mysql");
 var cookieParser = require('cookie-parser');
 var scrypt = require("scrypt-async");
+var multer  = require('multer')
+var upload = multer()
 var logger = require('morgan');
 var sessions=require("client-sessions");
 var bodyParser=require("body-parser");
@@ -67,7 +69,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (function (req, res)  {
     res.render("index", { userID: req.User.userID, type: req.User.type});
 }));
-app.get('/AddDoctor', (function (req, res)  {
+app.get('/AddDoctor', function (req, res)  {
   if (req.User.type=="Admin"||req.User.type=="Manager"){
     connection.query("select CID,Cname from Cities" , function (error, results, fields) {
       if (error) throw error;
@@ -79,12 +81,13 @@ app.get('/AddDoctor', (function (req, res)  {
     })}else{
     res.redirect("/")
   }
-}));
+});
 app.get('/AddManager', (function (req, res)  {
-  console.log(req.User)
-  if (req.User.type=="Admin"){
-    res.render("AddManager", { userID: req.User.userID, type: req.User.type});
-  }else{
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    connection.query("select CID,Cname from Cities" , function (error, results, fields) {
+      if (error) throw error;
+      res.render("AddManager", { Cities:results,userID: req.User.userID, type: req.User.type});
+    })}else{
     res.redirect("/")
   }
 }));
