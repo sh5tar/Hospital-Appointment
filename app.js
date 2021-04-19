@@ -81,7 +81,8 @@ app.get('/AddDoctor', (function (req, res)  {
   }
 }));
 app.get('/AddManager', (function (req, res)  {
-  if (req.User.Type=="Admin"){
+  console.log(req.User)
+  if (req.User.type=="Admin"){
     res.render("AddManager", { userID: req.User.userID, type: req.User.type});
   }else{
     res.redirect("/")
