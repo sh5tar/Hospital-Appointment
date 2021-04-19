@@ -72,6 +72,13 @@ app.get('/AddHospital', (function (req, res)  {
     res.redirect("/")
   }
 }));
+app.get('/ScheduleAppointment', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    res.render("ScheduleAppointment", { userID: req.User.userID, type: req.User.type});
+  }else{
+    res.redirect("/")
+  }
+}));
 app.get('/DoctorPerformence', (function (req, res) {
   if (req.User.type=="Admin"||req.User.type=="Manager"){
     connection.query("select Fname,Lname,GovID,Username,Gender,DoB,ContactNo,Address,Email,Cname as City from Users Inner join Cities on Cities.CID=Users.City Where UID=?",[req.User.userID] , function (error, results, fields) {
