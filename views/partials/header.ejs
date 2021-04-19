@@ -26,8 +26,13 @@
                     <li class="nav-item"><a class="nav-link" href="HospitalsPage"><i class="fas fa-table"></i><span>HospitalsPage</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="ManagersPage"><i class="fas fa-table"></i><span>ManagersPage</span></a></li>
                 <%}%>
-                <li class="nav-item"><a class="nav-link" href="login"><i class="far fa-user-circle"></i><span>Login</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="register"><i class="fas fa-user-circle"></i><span>Register</span></a></li>
+                <%if(userID){%>
+                    <li class="nav-item"><a class="nav-link" href="sign-out"><i class="far fa-user-circle"></i><span>Logout</span></a></li>
+                <%}else{%>
+
+                    <li class="nav-item"><a class="nav-link" href="login"><i class="far fa-user-circle"></i><span>Login</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="register"><i class="fas fa-user-circle"></i><span>Register</span></a></li>
+                <%}%>
             </ul>
             <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
         </div>
