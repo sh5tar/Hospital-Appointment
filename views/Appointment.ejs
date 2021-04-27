@@ -1,7 +1,67 @@
+
 <%- include('partials/header'); -%>
+<div class="container-fluid">
+    <h3 class="text-dark mb-4">Appointment Details</h3>
+    <div class="row mb-3">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow mb-3">
+                    <div class="card-header py-3">
+                        <p class="text-primary m-0 font-weight-bold">Appointment Details</p>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="/UserEdit">
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group"><label for="Patient"><strong>Patient</strong></label><input class="form-control" type="text" value="<%=i.Username%>" name="Username"></div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group"><label for="Doctor"><strong>Doctor</strong></label><input class="form-control"  id="gender" value="<%=i.Gender%>" name="Gender"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group"><label for="Location"><strong>Location</strong></label><input class="form-control" type="text" id="fname" value="<%=i.Fname%>" name="Fname"></div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group"><label for="Date"><strong>Date</strong></label><input class="form-control" type="text" id="lname" value="<%=i.Lname%>" name="Lname"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group"><label for="Time"><strong>Time</strong></label><input class="form-control" type="text" id="govid" value="<%=i.GovID%>" name="GovID"></div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group"><label for="Price"><strong>Price</strong></label><input class="form-control" type="text" id="dob" value="<%=DoB%>" name="DoB"></div>
+                                </div>
+                            </div>
+                            <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save Settings</button></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <p class="text-primary m-0 font-weight-bold">Contact Settings</p>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="/ContactEdit">
+                            <div class="form-group"><label for="address"><strong>Address</strong></label><input class="form-control" type="text" id="street" value="<%=i.Address%>" name="Address"></div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group"><label for="city"><strong>City</strong></label><input class="form-control" type="text" id="city" value="<%=i.City%>" name="City"></div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group"><label for="country"><strong>Zip Code</strong></label><input class="form-control" type="text" id="zip" value="XXXXX"></div>
+                                </div>
+                            </div>
+                            <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save&nbsp;Settings</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-
-
-
+</div>
 <%- include('partials/footer'); -%>
