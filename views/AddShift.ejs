@@ -1,0 +1,43 @@
+<%- include('partials/header'); -%>
+<div class="container">
+    <div class="card shadow-lg o-hidden border-0 my-5">
+        <div class="card-body p-0">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h4 class="text-dark mb-4">Add Shift</h4>
+                        </div>
+                        <form class="user" action="/AddShift" method="post">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group"><label for="first_name"><strong>Doctor</strong></label>
+                                            <input class="form-control" type="text" id="fname" name="Fname"></div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group"><label for="last_name"><strong>Date</strong></label>
+                                            <input class="form-control" type="text" id="lname" name="Lname"></div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group"><label for="username"><strong>Start Time</strong></label>
+                                            <input class="form-control" type="text" name="Username"></div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group"><label for="Govid"><strong>End Time</strong></label>
+                                            <input class="form-control" type="text" id="govid" name="GovID"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-block text-white btn-user" type="submit">Add Shift</button>
+                            <hr>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('partials/footer'); -%>

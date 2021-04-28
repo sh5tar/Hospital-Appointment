@@ -102,12 +102,32 @@ app.get('/DoctorsPage', (function (req, res)  {
     res.redirect("/")
   }
 }));
+app.get('/DoctorAvailability', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID",[req.User.userID] , function (error, results, fields) {
+      if (error) throw error;
+      res.render("DoctorAvailability", { i:results,userID: req.User.userID, type: req.User.type});
+
+    });
+  }else{
+    res.redirect("/")
+  }
+}));
 app.get('/AddHospital', (function (req, res)  {
   if (req.User.type=="Admin"||req.User.type=="Manager"){
     connection.query("select CID,Cname from Cities" , function (error, results, fields) {
       if (error) throw error;
     res.render("AddHospital", { Cities:results,userID: req.User.userID, type: req.User.type});
   })}else{
+    res.redirect("/")
+  }
+}));
+app.get('/AddShift', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    connection.query("select CID,Cname from Cities" , function (error, results, fields) {
+      if (error) throw error;
+      res.render("AddShift", { Cities:results,userID: req.User.userID, type: req.User.type});
+    })}else{
     res.redirect("/")
   }
 }));
@@ -291,6 +311,7 @@ app.post("/AddDoctor",function (req,res){
   });
 }
 });
+
 app.post("/AddManager",function (req,res){
   if (req.User.type=="Admin"||req.User.type=="Manager"){
     var result;
