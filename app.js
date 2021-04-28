@@ -91,6 +91,15 @@ app.get('/AddManager', (function (req, res)  {
     res.redirect("/")
   }
 }));
+app.get('/AddHospital', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    connection.query("select CID,Cname from Cities" , function (error, results, fields) {
+      if (error) throw error;
+      res.render("AddHospital", { Cities:results,userID: req.User.userID, type: req.User.type});
+    })}else{
+    res.redirect("/")
+  }
+}));
 app.get('/DoctorsPage', (function (req, res)  {
   if (req.User.type=="Admin"||req.User.type=="Manager"){
     connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID",[req.User.userID] , function (error, results, fields) {
@@ -109,52 +118,6 @@ app.get('/DoctorAvailability', (function (req, res)  {
       res.render("DoctorAvailability", { i:results,userID: req.User.userID, type: req.User.type});
 
     });
-  }else{
-    res.redirect("/")
-  }
-}));
-app.get('/AddHospital', (function (req, res)  {
-  if (req.User.type=="Admin"||req.User.type=="Manager"){
-    connection.query("select CID,Cname from Cities" , function (error, results, fields) {
-      if (error) throw error;
-    res.render("AddHospital", { Cities:results,userID: req.User.userID, type: req.User.type});
-  })}else{
-    res.redirect("/")
-  }
-}));
-app.get('/AddShift', (function (req, res)  {
-  if (req.User.type=="Admin"||req.User.type=="Manager"){
-    connection.query("select CID,Cname from Cities" , function (error, results, fields) {
-      if (error) throw error;
-      res.render("AddShift", { Cities:results,userID: req.User.userID, type: req.User.type});
-    })}else{
-    res.redirect("/")
-  }
-}));
-app.get('/ScheduleAppointment', (function (req, res)  {
-  if (req.User.type=="Admin"||req.User.type=="Manager"){
-    res.render("ScheduleAppointment", { userID: req.User.userID, type: req.User.type});
-  }else{
-    res.redirect("/")
-  }
-}));
-app.get('/DoctorPerformence', (function (req, res) {
-  if (req.User.type=="Admin"||req.User.type=="Manager"){
-    connection.query("select Fname,Lname,GovID,Username,Gender,DoB,ContactNo,Address,Email,Cname as City from Users Inner join Cities on Cities.CID=Users.City Where UID=?",[req.User.userID] , function (error, results, fields) {
-      console.log(results[0].DoB)
-      dd=new Date(results[0].DoB)
-      console.log(dd)
-      date1=dd.getFullYear()+"/"+dd.getMonth()+"/"+dd.getDate()
-      res.render("DoctorPerformence", { userID: req.User.userID, type: req.User.type});
-    })}
-
-  else{
-    res.redirect("/")
-  }
-}));
-app.get('/HospitalPerformence', (function (req, res)  {
-  if (req.User.type=="Admin"||req.User.type=="Manager"){
-    res.render("HospitalPerformence", { userID: req.User.userID, type: req.User.type});
   }else{
     res.redirect("/")
   }
@@ -179,7 +142,46 @@ app.get('/ManagersPage', (function (req, res)  {
     res.redirect("/")
   }
 }));
-app.get('/login', (function (req, res)  {
+app.get('/AddShift', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    connection.query("select CID,Cname from Cities" , function (error, results, fields) {
+      if (error) throw error;
+      res.render("AddShift", { Cities:results,userID: req.User.userID, type: req.User.type});
+    })}else{
+    res.redirect("/")
+  }
+}));
+app.get('/ScheduleAppointment', (function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    connection.query("select SPID, Specialty from Specialty" , function (error, results, fields) {
+      if (error) throw error;
+      res.render("ScheduleAppointment", { SP:results,userID: req.User.userID, type: req.User.type});
+    })}else{
+    res.redirect("/")
+  }
+}));
+app.get('/DoctorPerformence', function (req, res) {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    connection.query("select Fname,Lname,GovID,Username,Gender,DoB,ContactNo,Address,Email,Cname as City from Users Inner join Cities on Cities.CID=Users.City Where UID=?",[req.User.userID] , function (error, results, fields) {
+      console.log(results[0].DoB)
+      dd=new Date(results[0].DoB)
+      console.log(dd)
+      date1=dd.getFullYear()+"/"+dd.getMonth()+"/"+dd.getDate()
+      res.render("DoctorPerformence", { userID: req.User.userID, type: req.User.type});
+    })}
+
+  else{
+    res.redirect("/")
+  }
+});
+app.get('/HospitalPerformence', function (req, res)  {
+  if (req.User.type=="Admin"||req.User.type=="Manager"){
+    res.render("HospitalPerformence", { userID: req.User.userID, type: req.User.type});
+  }else{
+    res.redirect("/")
+  }
+});
+app.get('/login', function (req, res)  {
   if(req.User.userID){
     res.redirect("/");
   }else{
@@ -187,15 +189,15 @@ app.get('/login', (function (req, res)  {
     res.render("login",{userID:req.User.userID,type:req.User.type});
   }
 
-}));
-app.get('/register', (function (req, res) {
+});
+app.get('/register', function (req, res) {
   if(req.User.userID){
     res.redirect("/");
   }else{
     res.render("register",{userID:0,type:null});
   }
 
-}));
+});
 app.get("/sign-out",function(request,response){
   request.User.userID="";
   request.User.type="";
@@ -220,17 +222,21 @@ app.get("/profile",function(req,res){
     res.redirect("/")
   }
 });
-app.get('/usersPage/:id', (function (req, res)  {
-  if(req.User.type=="Manager"||req.User.type=="Admin"){
-    connection.query('SELECT * from Users where ID=?',[req.params.id], function (error, results, fields) {
-      if (error)
-        throw error;
-      res.render("profile", {profile: results, id: req.params.id, userID: req.User.userID, type: req.User.type});
+app.get('/usersPage/:id', function (req, res)  {
+  if(req.User.type=="Admin"||req.User.type=="Manager"){
+    connection.query("select Fname,Lname,GovID,Username,Gender,DoB,ContactNo,Address,Email,Cname as City from Users Inner join Cities on Cities.CID=Users.City Where UID=?",[req.params.id] , function (error, results, fields) {
+      console.log(results[0].DoB)
+      dd=new Date(results[0].DoB)
+      console.log(dd)
+      date1=dd.getFullYear()+"/"+dd.getMonth()+"/"+dd.getDate()
+      res.render("profile",{i:results[0],DoB:date1,userID:req.User.userID,type:req.User.type})
     })}
   else{
-        res.redirect("/")
+    res.redirect("/")
   }
-}));
+});
+
+
 app.post("/login",function(req,res){
   var result;
   console.log(req.body)
@@ -292,12 +298,12 @@ app.post("/register",function(req,res){
 });
 app.post("/deleteDoctor", function (req,res){
   if(req.User.type=="Manager"||req.User.type=="admin"){
-    connection.query('UPDATE  Doctors SET SID=number WHERE DID=?',[req.body.DID], function (error, results, fields) {
+    connection.query('UPDATE  Doctors SET SID=4 WHERE DID=?',[req.body.DID], function (error, results, fields) {
       if (error) throw error;
     });
   }
 });
-app.post("/AddDoctor",function (req,res){
+app.post("/AddDoctor",upload.array('img',6),function (req,res){
   if (req.User.type=="Admin"||req.User.type=="Manager"){
   var result;
   scrypt(req.body.password,"AhmedAndMustafa",{N:4096,r:8,p:1,dkLen:150,encoding: 'hex'}, function(derivedKey) {
@@ -305,8 +311,9 @@ app.post("/AddDoctor",function (req,res){
   });
   connection.query('insert into Users () values(null,?,?,?,?,"Doctor",?,?,?,?,?,?,CURRENT_TIMESTAMP)',[req.body.Fname,req.body.Lname,req.body.GovID,req.body.Gender,req.body.Type,req.body.Username,result,req.body.Dob,req.body.ContactNo,req.body.Address,req.body.Email], function (error, results, fields) {
     if (error) throw error;
-    connection.query('insert into Doctors () values(null,?,?,?,?,5)',[results.insertId,req.body.HID,req.body.Dname,req.body.Specialty, req.body.Experience], function (erro, result, field) {
+    connection.query('insert into Doctors () values(null,?,?,?,?,?,5)',[results.insertId,req.body.HID,req.body.Dname,req.body.Specialty, req.body.Experience,req.filename[0].buffer], function (erro, result, field) {
       if (erro) throw erro;
+    res.redirect("/DoctorsPage")
     });
   });
 }
