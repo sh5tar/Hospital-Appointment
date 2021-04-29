@@ -1,7 +1,7 @@
 <%- include('partials/header'); -%>
 
 
-<body id="page-top">
+
 <div id="wrapper">
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
@@ -28,81 +28,41 @@
                                 <p class="text-primary m-0 font-weight-bold">Appointments</p>
                             </div>
                             <div class="card-body">
-                                <form>
+                                <form method="post" action="ScheduleAppointment">
                                     <div class="col">
                                         <div class="form-row">
                                             <div class="col"><label class="col-form-label" style="color: var(--blue);font-size: 18px;font-family: Roboto, sans-serif;letter-spacing: 1px;">Tuesday 13 April 2021</label></div>
                                         </div>
+                                        <%listD.forEach(function(i){%>
                                         <div class="form-row" style="margin-bottom: 22px;margin-top: 0px;">
                                             <div class="col-auto align-self-start" style="text-align: center;"><img class="rounded-circle" height="100" width="100" src="/Images/Doctor2.PNG"></div>
                                             <div class="col">
+
                                                 <div class="form-row">
-                                                    <div class="col"><label class="col-form-label" style="color: var(--blue);font-family: Roboto, sans-serif;">John Doe, MD</label></div>
+                                                    <div class="col"><label class="col-form-label" style="color: var(--blue);font-family: Roboto, sans-serif;">DR. <%=i[1].DName%></label></div>
                                                 </div>
                                                 <div class="form-row">
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">9:50</button></div>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary disabled" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;" disabled="">10:50</button></div>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-row" style="margin-bottom: 22px;margin-top: 0px;">
-                                            <div class="col-auto align-self-start" style="text-align: center;"><img class="rounded-circle" height="100" width="100" src="/Images/Doctor2.PNG"></div>
-                                            <div class="col">
-                                                <div class="form-row">
-                                                    <div class="col"><label class="col-form-label" style="color: var(--blue);font-family: Roboto, sans-serif;">Jack Jill, MD</label></div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
+                                                    <%i[0].forEach(function(s){%>
+                                                    <%if (s[1]==0){%>
+                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;" value="<%=s[0]%>"><%=s[0].slice(0,-3)%></button></div>
+
+                                                        <%}})%>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-row">
-                                            <div class="col"><label class="col-form-label" style="color: var(--blue);font-size: 18px;font-family: Roboto, sans-serif;letter-spacing: 1px;">Wednesday 14 April 2021</label></div>
-                                        </div>
-                                        <div class="form-row" style="margin-bottom: 22px;margin-top: 0px;">
-                                            <div class="col-auto align-self-start" style="text-align: center;"><img class="rounded-circle" height="100" width="100" src="/Images/Doctor2.PNG"></div>
-                                            <div class="col">
-                                                <div class="form-row">
-                                                    <div class="col"><label class="col-form-label" style="color: var(--blue);font-family: Roboto, sans-serif;">John Doe, MD</label></div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">11:50</button></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-row" style="margin-bottom: 22px;margin-top: 0px;">
-                                            <div class="col-auto align-self-start" style="text-align: center;"><img class="rounded-circle" height="100" width="100" src="/Images/Doctor2.PNG"></div>
-                                            <div class="col">
-                                                <div class="form-row">
-                                                    <div class="col"><label class="col-form-label" style="color: var(--blue);font-family: Roboto, sans-serif;">Jack Jill, MD</label></div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;">9:50</button></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                                        <%})%>
+
                             <div class="card-body">
                                 <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Book Appointment</a>
                             </div>
+                                    </div>
+                                </form>
                         </div>
-                    </div>
+
                 </div>
             </div>
         </div>
+
 
 
 <%- include('partials/footer'); -%>
