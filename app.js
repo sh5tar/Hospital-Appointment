@@ -107,7 +107,7 @@ app.get('/AddHospital', (function (req, res) {
 }));
 app.get('/DoctorsPage', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
-        connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID", [req.User.userID], function (error, results, fields) {
+        connection.query("SELECT Doctors.UID,Doctors.DID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID", [req.User.userID], function (error, results, fields) {
             if (error) throw error;
             res.render("DoctorsPage", {i: results, userID: req.User.userID, type: req.User.type});
 
@@ -178,47 +178,52 @@ app.get('/ScheduleAppointment', function (req, res) {
             connection.query('Select D.DID, D.DName, D.SPID, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D Inner join Appointments as AP on AP.DID=D.DID  ', function (error2, results2, fields) {
                 if (error2) throw error2;
                 connection.query('Select * from Specialty', [req.body.SP, req.body.Adate], function (error3, results3, fields) {
-                if (error3) throw error3;
-                console.log(results)
-                ress=results2
-                for (i = 0; i < results.length; i++) {
-                    DID = results[i].DID
-                    len = toM(results[i].ETime, results[i].STime)
-                    part = len / 20
+                    if (error3) throw error3;
+                    console.log(results)
+                    ress = results2
+                    for (i = 0; i < results.length; i++) {
+                        DID = results[i].DID
+                        len = toM(results[i].ETime, results[i].STime)
+                        part = len / 20
 
-                    console.log(res)
-                    for (x = 0; x < part; x++) {
-                        time = new Date(results[i].STime)
-                        var te1 = results[i].STime.split(':');
-                        var m1 = (+te1[0]) * 60 + (+te1[1]) + 20 * x;
-                        if (m1 % 60 == 0) ST = Math.floor(m1 / 60) + ":00:00"
-                        else ST = Math.floor(m1 / 60) + ":" + m1 % 60 + ":00"
-                        slot = [ST, 0, DID]
-                        for (s = 0; s < ress.length; s++) {
-                            var te2 = ress[s].ATime.split(':');
-                            test = (+te2[0]) * 60 + (+te2[1]);
-                            if (test == m1 && DID==ress[s].DID) {
-                                slot = [ST, 1]
-                                break;
+                        console.log(res)
+                        for (x = 0; x < part; x++) {
+                            time = new Date(results[i].STime)
+                            var te1 = results[i].STime.split(':');
+                            var m1 = (+te1[0]) * 60 + (+te1[1]) + 20 * x;
+                            if (m1 % 60 == 0) ST = Math.floor(m1 / 60) + ":00:00"
+                            else ST = Math.floor(m1 / 60) + ":" + m1 % 60 + ":00"
+                            slot = [ST, 0, DID]
+                            for (s = 0; s < ress.length; s++) {
+                                var te2 = ress[s].ATime.split(':');
+                                test = (+te2[0]) * 60 + (+te2[1]);
+                                if (test == m1 && DID == ress[s].DID) {
+                                    slot = [ST, 1]
+                                    break;
+                                }
                             }
+                            console.log(slot)
+                            /*connection.query('Select D.DID, D.DName, D.SPID, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D Inner join Appointments as AP on AP.DID=D.DID  Where D.SPID=? and A.ADate=? and D.DID=?',[req.body.SP, req.body.Adate,DID], function (error, results2, fields) {
+                              if (error) throw error;
+                              slot=[S,0,resutls.DID]
+                            });
+                            */
+
+                            doctor.push(slot)
+
                         }
-                        console.log(slot)
-                        /*connection.query('Select D.DID, D.DName, D.SPID, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D Inner join Appointments as AP on AP.DID=D.DID  Where D.SPID=? and A.ADate=? and D.DID=?',[req.body.SP, req.body.Adate,DID], function (error, results2, fields) {
-                          if (error) throw error;
-                          slot=[S,0,resutls.DID]
-                        });
-                        */
-
-                        doctor.push(slot)
-
+                        list.push([doctor, results[i]])
+                        doctor = []
                     }
-                    list.push([doctor,results[i]])
-                    doctor = []
-                }
-                console.log(list)
-                res.render("ScheduleAppointment", {SP: results3,listD: list, userID: req.User.userID, type: req.User.type})
+                    console.log(list)
+                    res.render("ScheduleAppointment", {
+                        SP: results3,
+                        listD: list,
+                        userID: req.User.userID,
+                        type: req.User.type
+                    })
+                });
             });
-        });
         });
     } else {
         res.redirect("/")
@@ -367,9 +372,24 @@ app.post("/register", function (req, res) {
 
     res.redirect("/");
 });
-app.post("/deleteDoctor", function (req, res) {
+
+app.post("/updateDoctor", function (req, res) {
     if (req.User.type == "Manager" || req.User.type == "admin") {
-        connection.query('UPDATE  Doctors SET SID=4 WHERE DID=?', [req.body.DID], function (error, results, fields) {
+        connection.query('UPDATE  Doctors SET SID=? WHERE DID=?', [req.body.num,req.body.DID], function (error, results, fields) {
+            if (error) throw error;
+        });
+    }
+});
+app.post("/updateManager", function (req, res) {
+    if (req.User.type == "Manager" || req.User.type == "admin") {
+        connection.query('UPDATE  Managers SET SID=? WHERE MID=?', [req.body.num,req.body.DID], function (error, results, fields) {
+            if (error) throw error;
+        });
+    }
+});
+app.post("/updateHospital", function (req, res) {
+    if (req.User.type == "Manager" || req.User.type == "admin") {
+        connection.query('UPDATE  Doctors SET SID=? WHERE HID=?', [req.body.num,req.body.HID], function (error, results, fields) {
             if (error) throw error;
         });
     }
@@ -424,32 +444,22 @@ app.post("/AddHospital", function (req, res) {
     }
 
 })
-
-app.post("/Appointments-Schedule", function (req, res) {
-    list = []
-    doctor = []
-    if (req.User.userID) {
-        connection.query('Select D.DID, D.DName, D.Specialty,A.Date,A.STime,A.ETime, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D INNER JOIN DoctorAvailability as A on D.DID =A.DID  Where D.SPID=? and A.Date=?', [req.body.SP, req.body.Adate], function (error, results, fields) {
+app.post("/AddShift", function (req, res) {
+    if (req.User.type == "Admin" || req.User.type == "Manager") {
+        connection.query('insert into Appointments() values(null,?,?,?,?,?,20,3)', [req.body.SP, req.body.Adate], function (error, results, fields) {
             if (error) throw error;
+            res.render("/", { userID: req.User.userID, type: req.User.type})
 
-            for (i = 0; i < results.lenth; i++) {
-                len = toM(results[i].Etime, resutls[i].Stime)
-                part = len / 20
-                DID = results[i].DID
-                for (x = 0; x < part; x++) {
-                    time = new Date(results[i].Stime)
-                    S = time.getHours() + ":" + time.getMinutes()
-                    connection.query('Select D.DID, D.DName, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D INNER JOIN Appointments as A on D.DID =A.DID  Where D.SPID=? and A.ADate=? and D.DID=?', [req.body.SP, req.body.Adate, DID], function (error, results2, fields) {
-                        if (error) throw error;
-                        slot = [S, 0, resutls.DID]
-                    });
-                    doctor.push(slot)
-
-                }
-                list.push(doctor)
-                doctor = []
-            }
-            res.render("?", {listD: list, userID: req.User.userID, type: req.User.type})
+        });
+    } else {
+        res.redirect("/")
+    }
+});
+app.post("/Appointments-Schedule", function (req, res) {
+    if (req.User.userID) {
+        connection.query('insert into Appointments() values(null,?,?,?,?,?,20,3)', [req.body.SP, req.body.Adate], function (error, results, fields) {
+            if (error) throw error;
+            res.render("/", { userID: req.User.userID, type: req.User.type})
 
         });
     } else {
