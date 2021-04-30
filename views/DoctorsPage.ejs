@@ -28,16 +28,20 @@
                                             <th>Specialty</th>
                                             <th>Experience</th>
                                             <th>Date of employment</th>
+                                            <th>Active</th>
                                         </tr>
                                     </thead>
                                     <%i.forEach(function(i){%>
                                     <%dd=new Date(i.DateOfCreation)%>
                                     <tbody>
                                         <tr>
-                                            <td><img class="rounded-circle mr-2" width="30" height="30" src="../public/assets/img/avatars/avatar1.jpeg"><a href=<%="usersPage/"+i.UID%>><%=i.Fname +" "+i.Lname%></a></td>
+                                            <td><img class="rounded-circle mr-2" width="30" height="30" src="/Images/Doctor2.PNG"><a href=<%="usersPage/"+i.UID%>><%=i.Fname +" "+i.Lname%></a></td>
                                             <td><%=i.Specialty%></td>
                                             <td><%=i.Experience%></td>
                                             <td><%=dd.getFullYear()+"/"+dd.getMonth()+"/"+dd.getDate()%></td>
+                                            <td>
+                                                <%if(i.SID==4){%>   <a href="/<%=i.ID%>/remove" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-close" style="font-size:48px;color:red"></i></a>
+                                                <% } else{%>   <a href="/<%=i.ID%>/add" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-check" aria-hidden="true"></i></a> <%}%> </td>
                                         </tr>
                                     </tbody>
                                     <%})%>

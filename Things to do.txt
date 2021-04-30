@@ -7,7 +7,4 @@ Things to do:
 
 - flip button near DoctorsPage & Managers page
 
-- StatusID for Hospitals and Doctors in DB
-
 - Hospital list in BookAnAppointment
-
