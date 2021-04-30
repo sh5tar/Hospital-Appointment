@@ -34,7 +34,7 @@
                                     <%dd=new Date(i.DateOfCreation)%>
                                     <tbody>
                                         <tr>
-                                            <td><img class="rounded-circle mr-2" width="30" height="30" src="../public/assets/img/avatars/avatar1.jpeg"><a href="DoctorPerformence"><%=i.Fname +" "+i.Lname%></a></td>
+                                            <td><img class="rounded-circle mr-2" width="30" height="30" src="../public/assets/img/avatars/avatar1.jpeg"><a href=<%="usersPage/"+i.UID%>><%=i.Fname +" "+i.Lname%></a></td>
                                             <td><%=i.Specialty%></td>
                                             <td><%=i.Experience%></td>
                                             <td><%=dd.getFullYear()+"/"+dd.getMonth()+"/"+dd.getDate()%></td>

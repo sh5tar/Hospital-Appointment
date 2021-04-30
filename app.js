@@ -127,6 +127,17 @@ app.get('/DoctorAvailability', (function (req, res) {
         res.redirect("/")
     }
 }));
+app.get('/Schedule', (function (req, res) {
+    if (req.User.type == "Admin" || req.User.type == "Manager") {
+        connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID", [req.User.userID], function (error, results, fields) {
+            if (error) throw error;
+            res.render("Schedule", {i: results, userID: req.User.userID, type: req.User.type});
+
+        });
+    } else {
+        res.redirect("/")
+    }
+}));
 app.get('/HospitalsPage', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         connection.query("SELECT HID,HName,Cname,Location from Hospitals Inner JOIN Cities on Hospitals.CID = Cities.CID", function (error, results, fields) {

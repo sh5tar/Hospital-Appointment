@@ -1,19 +1,13 @@
 Things to do:
 
--Add DoctorPerformence info to the Db, and add that info to the appropriate webpage
-
 - In ScheduleAppointment, make past dates unclickable
-
-Pages to create:
-
--Schedule:
-	For each doctor
 
 -Appointment:
 	show appointment details
 
--Schedule an Appointment:
-	-(Idea) Only show time for GP, and the GP can give the patient access to any specialist doctor.
+- flip button near DoctorsPage & Managers page
 
-	-appointment type
-	-shows all available doctors of the specified specialty, with their open time slots
+- StatusID for Hospitals and Doctors in DB
+
+- Hospital list in BookAnAppointment
+

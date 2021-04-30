@@ -16,18 +16,28 @@
                                             <input class="form-control" type="text" id="fname" name="Fname"></div>
                                     </div>
                                     <div class="col">
-                                        <div class="form-group"><label for="last_name"><strong>Date</strong></label>
-                                            <input class="form-control" type="text" id="lname" name="Lname"></div>
-                                    </div>
+                                        <div class="col-sm-12 mb-12 mb-sm-12"><label>Date</label><input class="form-control" id="dob" type="date" name="DoB"></div>
+
                                 </div>
                                 <div class="form-row">
                                     <div class="col">
                                         <div class="form-group"><label for="username"><strong>Start Time</strong></label>
-                                            <input class="form-control" type="text" name="Username"></div>
+                                            <br>
+                                                <input type="number" id="Shour" style="width: 50px" onchange="TimeH2()" min="0" max="23" placeholder="23">
+                                                <b>:</b>
+                                                <input type="number" id="Smin" style="width: 50px" min="0" max="59" placeholder="00">
+                                        </div>
                                     </div>
-                                    <div class="col">
+                                    <div class="col" style="margin-left: 140px">
                                         <div class="form-group"><label for="Govid"><strong>End Time</strong></label>
-                                            <input class="form-control" type="text" id="govid" name="GovID"></div>
+                                            <br>
+                                            <div>
+                                                <input type="number" id="Ehour" style="width: 50px" onchange="TimeH()" min="0" max="23" placeholder="23">
+                                                <b>:</b>
+                                                <input type="number" id="Emin" style="width: 50px" onchange="TimeM()" min="0" max="59" placeholder="00">
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -40,4 +50,33 @@
         </div>
     </div>
 </div>
+
+
+<script> function TimeH() {
+    var Ehour = document.getElementById("Ehour").value;
+    document.getElementById("Shour").setAttribute("max", Ehour)
+    }
+
+    function TimeM() {
+        var Shour = document.getElementById("Shour").value;
+        var Ehour = document.getElementById("Ehour").value;
+        var Smin = document.getElementById("Smin").value;
+        var Emin = document.getElementById("Emin").value;
+
+        if (Shour == Ehour)
+            document.getElementById("Emin").setAttribute("min", Smin)
+        else{
+            document.getElementById("Ehour").setAttribute("min", Shour)
+            document.getElementById("Emin").setAttribute("min", 0)
+        }
+
+
+    }
+
+    function TimeH2() {
+        var Shour = document.getElementById("Shour").value;
+        document.getElementById("Ehour").setAttribute("min", Shour)
+    }
+
+</script>
 <%- include('partials/footer'); -%>

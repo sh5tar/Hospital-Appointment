@@ -20,6 +20,14 @@
                          <div class="col">
                             <label>Date of Appointment</label><input class="form-control" id="DoB" type="date" name="DoB">
                             </div>
+                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="CID">
+
+                                <%Cities.forEach(function (i){%>
+                                <option value="<%=i.CID%>>" selected=""><%=i.Cname%></option>
+                                <%})%>
+                                <option value="" selected="selected"> Select city</option>
+                            </select>&nbsp;</div>
+                            </div>
                          </div>
                        </div>
                    </div>
