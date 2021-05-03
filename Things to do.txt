@@ -7,7 +7,15 @@ Things to do:
 
 - flip button near DoctorsPage & Managers page
 
-- StatusID for Hospitals and Doctors in DB
-
 - Hospital list in BookAnAppointment
+
+- selected in cities option
+
+Mustafa:
+
+- Book an appointment backend
+
+- Addshift fix
+
+- flip button in doctorspage, managerspage, hospitalspage
 
