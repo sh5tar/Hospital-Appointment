@@ -49,11 +49,12 @@
                                 <div class="form-row">
                                     <div class="col">
                                         <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="CID">
-
-                                                <%Cities.forEach(function (i){%>
-                                                <option value="<%=i.CID%>>" selected=""><%=i.Cname%></option>
-                                                <%})%>
                                                 <option value="" selected="selected"> Select city</option>
+                                                <%Cities.forEach(function (i){%>
+
+                                                <option value="<%=i.CID%>>" ><%=i.Cname%></option>
+                                                <%})%>
+
                                             </select>&nbsp;</div>
                                     </div>
                                     <div class="col">
@@ -63,10 +64,23 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="col">
-                                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>Specialty&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="CID">
+                                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>HOstipal&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="HID">
+                                                <option value="" selected="selected"> Select Hostpital</option>
+                                                <%HS.forEach(function (i){%>
 
+                                                <option value="<%=i.HID%>>" ><%=i.HName%></option>
+                                                <%})%>
+
+                                            </select>&nbsp;</div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>Specialty&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="SPID">
+                                                <option value="" selected="selected"> Select Specialty</option>
                                                 <%Sp.forEach(function (i){%>
-                                                <option value="<%=i.SPID%>>" selected=""><%=i.Specialty%></option>
+
+                                                <option value="<%=i.SPID%>>" ><%=i.Specialty%></option>
                                                 <%})%>
 
                                             </select>&nbsp;</div>
@@ -83,18 +97,18 @@
                                     </div>
                                     <div class="col">
                                         <div class="form-group"><label for="RepeatPassword"><strong>Repeat Password</strong></label>
-                                            <input class="form-control" type="text" id="RepeatPassword" name="RepeatPassword"></div>
+                                            <input class="form-control" type="Password" id="RepeatPassword" name="RepeatPassword"></div>
                                     </div>
                                 </div>
                                 <div class="form-row">
                                     <div class="col">
-                                        <form action="/action_page.php">
+
                                             <input type="file" id="myFile" name="filename">
-                                        </form>
+
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-block text-white btn-user" type="submit">Add Doctor</button>
+                            <button class="btn btn-primary btn-block text-white btn-user" type="Submit">Add Doctor</button>
                             <hr>
                         </form>
                     </div>

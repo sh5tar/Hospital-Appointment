@@ -40,8 +40,8 @@
                                             <td><%=i.Experience%></td>
                                             <td><%=dd.getFullYear()+"/"+dd.getMonth()+"/"+dd.getDate()%></td>
                                             <td>
-                                                <%if(i.SID==5){%>   <a href="/<%=i.ID%>/remove" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-close" style="font-size:48px;color:red">&#10006;</i></a>
-                                                <% } else{%>   <a href="/<%=i.ID%>/add" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-check" aria-hidden="true"></i></a> <%}%> </td>
+                                                <%if(i.SID==5){%>   <a href="/removeD/<%=i.DID%>" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-close" style="font-size:100%;color:red">&#10006;</i></a>
+                                                <% } else{%>   <a href="/addD/<%=i.DID%>" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-check" aria-hidden="true"></i></a> <%}%> </td>
                                         </tr>
                                     </tbody>
                                     <%})%>
