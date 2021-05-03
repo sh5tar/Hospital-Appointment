@@ -5,11 +5,14 @@ Things to do:
 -Appointment:
 	show appointment details
 
-- flip button near DoctorsPage & Managers page
 
-- Hospital list in BookAnAppointment
+- a page to edit shifts
 
-- selected in cities option
+- add data
+
+- Get HID from DB in AddManager
+
+- Get Cities from DB in Register
 
 Mustafa:
 
@@ -17,5 +20,6 @@ Mustafa:
 
 - Addshift fix
 
-- flip button in doctorspage, managerspage, hospitalspage
+- Make booking an appointment work
 
+- Authorization

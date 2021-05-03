@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="form-group"><label for="Govid"><strong>Government ID</strong></label>
-                                            <input class="form-control" type="text" id="govid" name="GovID"></div>
+                                            <input class="form-control" type="text" id="govid" name="GovID" minlength="10" maxlength="10" ></div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="col">
-                                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>HOstipal&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="HID">
+                                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>Hostipal&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="HID">
                                                 <option value="" selected="selected"> Select Hostpital</option>
                                                 <%HS.forEach(function (i){%>
 
@@ -93,11 +93,11 @@
                                 <div class="form-row">
                                     <div class="col">
                                         <div class="form-group"><label for="Password"><strong>Password</strong></label>
-                                            <input class="form-control" type="Password" name="Password"></div>
+                                            <input class="form-control" type="Password" id="password" name="Password"></div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group"><label for="RepeatPassword"><strong>Repeat Password</strong></label>
-                                            <input class="form-control" type="Password" id="RepeatPassword" name="RepeatPassword"></div>
+                                            <input class="form-control" type="Password" id="repeatPassword" name="RepeatPassword"></div>
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -117,4 +117,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.querySelector('#button').onclick = function () {
+        var password = document.querySelector('#password').value,
+            confirmPassword = document.querySelector('#repeatPassword').value;
+
+        if (password == "") {
+            alert("Field cannot be empty.");
+        } else if (password != confirmPassword) {
+            alert("Password didn't match, try again.");
+            return false
+        } else if (password == confirmPassword) {
+            alert("Password Match");
+            return true
+        }
+    }
+</script>
 <%- include('partials/footer'); -%>
