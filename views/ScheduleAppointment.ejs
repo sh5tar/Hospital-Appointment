@@ -19,7 +19,8 @@
                             </select>
                         </div>
                          <div class="col">
-                            <label>Date of Appointment</label><input class="form-control" id="DoB" type="date" name="DoB">
+                            <label>Date of Appointment</label>
+                             <input class="form-control" id="datefield" type='date' min='1899-01-01' max='2000-13-13'>
                             </div>
                         <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="CID">
                                 <option value="" selected="selected"> Select city</option>
@@ -73,6 +74,20 @@
             </div>
         </div>
 
+<script>
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
 
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("datefield").setAttribute("min", today);
+</script>
 
 <%- include('partials/footer'); -%>
