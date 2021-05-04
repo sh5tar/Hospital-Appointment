@@ -29,13 +29,13 @@
                     </tr>
                     </thead>
                     <%i.forEach(function(i){%>
-                    <%dd=new Date(i.DateOfCreation)%>
+                    <%dd=new Date(i.Date)%>
                     <tbody>
                     <tr>
                         <td><img class="rounded-circle mr-2" width="30" height="30" src="/Images/Doctor2.PNG"><a href=<%="usersPage/"+i.UID%>><%=i.Fname +" "+i.Lname%></a></td>
-                        <td><%=i.Specialty%></td>
-                        <td><%=i.Experience%></td>
-                        <td><%=dd.getFullYear()+"/"+dd.getMonth()+"/"+dd.getDate()%></td>
+                        <td><%=dd.getDate()+"/"+(dd.getMonth()+1)+"/"+dd.getFullYear()%></td>
+                        <td><%=i.STime%></td>
+                        <td><%=i.ETime%></td>
                     </tr>
                     </tbody>
                     <%})%>

@@ -8,7 +8,7 @@
                         <div class="text-center">
                             <h4 class="text-dark mb-4">Add a Doctor</h4>
                         </div>
-                        <form class="user" action="/AddDoctor" method="post">
+                        <form class="user" action="/AddDoctor" enctype="multipart/form-data" method="post">
                             <div class="card-body">
                                     <div class="form-row">
                                         <div class="col">
@@ -52,7 +52,7 @@
                                                 <option value="" selected="selected"> Select city</option>
                                                 <%Cities.forEach(function (i){%>
 
-                                                <option value="<%=i.CID%>>" ><%=i.Cname%></option>
+                                                <option value="<%=i.CID%>" ><%=i.Cname%></option>
                                                 <%})%>
 
                                             </select>&nbsp;</div>
@@ -68,7 +68,7 @@
                                                 <option value="" selected="selected"> Select Hostpital</option>
                                                 <%HS.forEach(function (i){%>
 
-                                                <option value="<%=i.HID%>>" ><%=i.HName%></option>
+                                                <option value="<%=i.HID%>" ><%=i.HName%></option>
                                                 <%})%>
 
                                             </select>&nbsp;</div>
@@ -80,7 +80,7 @@
                                                 <option value="" selected="selected"> Select Specialty</option>
                                                 <%Sp.forEach(function (i){%>
 
-                                                <option value="<%=i.SPID%>>" ><%=i.Specialty%></option>
+                                                <option value="<%=i.SPID%>" ><%=i.Specialty%></option>
                                                 <%})%>
 
                                             </select>&nbsp;</div>
@@ -103,7 +103,7 @@
                                 <div class="form-row">
                                     <div class="col">
 
-                                            <input type="file" id="myFile" name="filename">
+                                            <input multiple type="file" id="myFile" name="img">
 
                                     </div>
                                 </div>

@@ -131,7 +131,7 @@ app.get('/DoctorsPage', (function (req, res) {
 }));
 app.get('/DoctorAvailability', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
-        connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID", [req.User.userID], function (error, results, fields) {
+        connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,A.Date,A.STime,A.ETime  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN DoctorAvailability as A on A.DID=Doctors.DID where A.Date>=  CURDATE()", [req.User.userID], function (error, results, fields) {
             if (error) throw error;
             res.render("DoctorAvailability", {i: results, userID: req.User.userID, type: req.User.type});
 
@@ -172,12 +172,19 @@ app.get('/ManagersPage', (function (req, res) {
     }
 }));
 app.get('/AddShift', (function (req, res) {
-    if (req.User.type == "Admin" || req.User.type == "Manager") {
-        connection.query("select CID,Cname from Cities", function (error, results, fields) {
+    if ( req.User.type == "Manager") {
+        connection.query("select * from Doctors where HID=?",[req.User.HID], function (error, results, fields) {
             if (error) throw error;
-            res.render("AddShift", {Cities: results, userID: req.User.userID, type: req.User.type});
+            res.render("AddShift", {Dr: results, userID: req.User.userID, type: req.User.type});
         })
-    } else {
+
+    }
+    else if (req.User.type == "Admin" ) {
+        connection.query("select * from Doctors ",[req.User.HID], function (error, results, fields) {
+            if (error) throw error;
+            res.render("AddShift", {Dr: results, userID: req.User.userID, type: req.User.type});
+        })
+    }else {
         res.redirect("/")
     }
 }));
@@ -185,6 +192,10 @@ app.get('/ScheduleAppointment', function (req, res) {
     list = []
     doctor = []
     ress = []
+    dateA=new Date("2021-4-12")
+    dateA.setDate(dateA.getDate()-dateA.getDay())
+    console.log(dateA.getDate())
+    stri=dateA.getFullYear()+"-"+(dateA.getMonth()+1)+"-"+dateA.getDate()
     if (req.User.userID) {
         connection.query('Select D.DID, D.DName, D.SPID,A.Date,A.STime,A.ETime from Doctors as D INNER JOIN DoctorAvailability as A on D.DID =A.DID  ', [req.body.SP, req.body.Adate], function (error, results, fields) {
             if (error) throw error;
@@ -194,14 +205,12 @@ app.get('/ScheduleAppointment', function (req, res) {
                     if (error3) throw error3;
                     connection.query('Select * from Cities', [req.body.SP, req.body.Adate], function (error4, results4, fields) {
                         if (error4) throw error4;
-                    console.log(results)
                     ress = results2
                     for (i = 0; i < results.length; i++) {
                         DID = results[i].DID
                         len = toM(results[i].ETime, results[i].STime)
                         part = len / 20
 
-                        console.log(res)
                         for (x = 0; x < part; x++) {
                             time = new Date(results[i].STime)
                             var te1 = results[i].STime.split(':');
@@ -217,7 +226,6 @@ app.get('/ScheduleAppointment', function (req, res) {
                                     break;
                                 }
                             }
-                            console.log(slot)
                             /*connection.query('Select D.DID, D.DName, D.SPID, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D Inner join Appointments as AP on AP.DID=D.DID  Where D.SPID=? and A.ADate=? and D.DID=?',[req.body.SP, req.body.Adate,DID], function (error, results2, fields) {
                               if (error) throw error;
                               slot=[S,0,resutls.DID]
@@ -230,7 +238,6 @@ app.get('/ScheduleAppointment', function (req, res) {
                         list.push([doctor, results[i]])
                         doctor = []
                     }
-                    console.log(list)
                     res.render("ScheduleAppointment", {
                         SP: results3,
                         listD: list,
@@ -409,10 +416,11 @@ app.post("/login", function (req, res) {
                     }
                 )
             } else if (results[0].UserType == "Manager" || results[0].UserType == "Admin") {
-                connection.query("select SID from Managers where UID=? ", [results[0].UID], function (erro, result, field) {
+                connection.query("select SID,HID from Managers where UID=? ", [results[0].UID], function (erro, result, field) {
                         if (error) throw error;
                         if (result[0].SID == 5) {
                             req.User.type = results[0].UserType;
+                            req.User.HID= results[0].HID;
                             console.log("he made it here")
                             res.redirect("/");
                         } else res.redirect("/");
@@ -471,7 +479,7 @@ app.post("/updateHospital", function (req, res) {
 });
 
 app.post("/AddDoctor", upload.array('img', 6), function (req, res) {
-    console.log(req.body.filename[0])
+    console.log(req.body.SPID)
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         var result;
         scrypt(req.body.Password, "AhmedAndMustafa", {
@@ -487,7 +495,7 @@ app.post("/AddDoctor", upload.array('img', 6), function (req, res) {
             if (error) throw error;
             console.log("not there")
             console.log()
-            connection.query('insert into Doctors () values(null,?,?,?,?,?,5,?)', [results.insertId, req.body.HID, req.body.Fname, req.body.Experience, req.body.SPID, req.body.filename[0].buffer], function (erro, result, field) {
+            connection.query('insert into Doctors () values(null,?,?,?,?,?,?,5)', [results.insertId, req.body.HID, req.body.Fname, req.body.Experience, req.files[0].buffer, req.body.SPID], function (erro, result, field) {
                 if (erro) throw erro;
                 console.log("here")
                 res.redirect("/DoctorsPage")
@@ -527,9 +535,9 @@ app.post("/AddHospital", function (req, res) {
 })
 app.post("/AddShift", function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
-        connection.query('insert into Appointments() values(null,?,?,?,?,?,20,3)', [req.body.SP, req.body.Adate], function (error, results, fields) {
+        connection.query('insert into DoctorAvailabiulity() values(?,?,?,?,?)', [req.body.HID,req.body.DID,req.body.DoB,req.body.STime,req.body.ETime], function (error, results, fields) {
             if (error) throw error;
-            res.render("/", { userID: req.User.userID, type: req.User.type})
+            res.redirect("/DoctorAvailability")
 
         });
     } else {

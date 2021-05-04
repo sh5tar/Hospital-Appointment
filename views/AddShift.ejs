@@ -11,10 +11,14 @@
                         <form class="user" action="/AddShift" method="post">
                             <div class="card-body">
                                 <div class="form-row">
-                                    <div class="col">
-                                        <div class="form-group"><label for="first_name"><strong>Doctor</strong></label>
-                                            <input class="form-control" type="text" id="fname" name="Fname"></div>
-                                    </div>
+                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="DID">
+                                            <option value="" selected="selected"> Select Doctor</option>
+                                            <%Dr.forEach(function (i){%>
+
+                                            <option value="<%=Dr.DID%>" ><%=i.DName%></option>
+                                            <%})%>
+
+                                        </select>&nbsp;</div>
                                     <div class="col">
                                         <div class="col-sm-12 mb-12 mb-sm-12"><label>Date</label><input class="form-control" id="dob" type="date" name="DoB"></div>
 
