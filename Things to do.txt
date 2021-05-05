@@ -1,18 +1,6 @@
 Things to do:
 
-- In ScheduleAppointment, make past dates unclickable
-
--Appointment:
-	show appointment details
-
-
-- a page to edit shifts
-
-- add data
-
 - Get HID from DB in AddManager
-
-- Get Cities from DB in Register
 
 Mustafa:
 

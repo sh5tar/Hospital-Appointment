@@ -19,7 +19,7 @@
                             </select>
                         </div>
                          <div class="col">
-                            <label>Date of Appointment</label><input class="form-control" id="date" type="date" name="DoB" value="" onchange="fun()">
+                            <label>Date of Appointment</label><input class="form-control" id="date" type="date" name="DoB"  onchange="fun()">
                             </div>
                         <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="HID" id="HID" onchange="fun()">
                                 <option value="" selected="selected"> Select city</option>
@@ -47,10 +47,25 @@
 
 
 <script>
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("datefield").setAttribute("min", today);
+
+
     function fun() {
         if (document.getElementById("SP").value!="" & document.getElementById("HID").value!="" &document.getElementById("date")!=""){
             var path = '/getAppointment?SP='+document.getElementById("SP").value+"&HID="+document.getElementById("HID").value+"&Adate="+document.getElementById("date").value
-        // Grab the template
+            // Grab the template
             $.get(path, function (data) {
                 console.log(data)
                 $.post('/data',{list:JSON.stringify(data)}, function (html) {
@@ -59,20 +74,6 @@
                     $('#addCon').html(html);
                 });
             });
-    }}
-    function getthis(){
-    if (document.getElementById("SP").value!="" & document.getElementById("HID").value!="" &document.getElementById("date")!=""){
-
-    $.ajax(path,{ success: function (data, status, xhr) { $("#addCon").load('/data',[data],meth)
-
-
-    } });
-    }}
-    function f() {
-        $.ajax('/data',{success:function (data,status,xhr){
-            return data
-            }})
-
-    }
+        }}
 </script>
 <%- include('partials/footer'); -%>

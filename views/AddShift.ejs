@@ -15,37 +15,37 @@
                                             <option value="" selected="selected"> Select Doctor</option>
                                             <%Dr.forEach(function (i){%>
 
-                                            <option value="<%=i.DID%>" ><%=i.DName%></option>
+                                            <option value="<%=Dr.DID%>" ><%=i.DName%></option>
                                             <%})%>
 
                                         </select>&nbsp;</div>
                                     <div class="col">
-                                        <div class="col-sm-12 mb-12 mb-sm-12"><label>Date</label><input class="form-control" id="dob" type="date" name="DoB"></div>
-
+                                        <div class="col-sm-12 mb-12 mb-sm-12"><label>Date</label>
+                                            <input class="form-control" id="datefield" type='date' min='1899-01-01' max='2000-13-13'>
+                                    </div>
                                 </div>
+                            </div>
                                 <div class="form-row">
                                     <div class="col">
                                         <div class="form-group"><label for="username"><strong>Start Time</strong></label>
                                             <br>
-                                                <input type="number" id="Shour" style="width: 50px" onchange="TimeH2()" min="0" max="23" placeholder="23" name="STime1">
+                                                <input type="number" id="Shour" onchange="TimeH2()" min="0" max="23" placeholder="23">
                                                 <b>:</b>
-                                                <input type="number" id="Smin" style="width: 50px" value="0" min="0" max="59" placeholder="00" name="STime2">
+                                                <input type="number" id="Smin" min="0" max="59" placeholder="00">
                                         </div>
                                     </div>
-                                    <div class="col" style="margin-left: 140px">
+                                    <div class="col">
                                         <div class="form-group"><label for="Govid"><strong>End Time</strong></label>
                                             <br>
                                             <div>
-                                                <input type="number" id="Ehour" style="width: 50px" onchange="TimeH()" min="0" max="23" placeholder="23" name="ETime1">
+                                                <input type="number" id="Ehour" onchange="TimeH()" min="0" max="23" placeholder="23">
                                                 <b>:</b>
-                                                <input type="number" id="Emin" style="width: 50px" value="0" onchange="TimeM()" min="0" max="59" placeholder="00" name="ETime2">
+                                                <input type="number" id="Emin" onchange="TimeM()" min="0" max="59" placeholder="00">
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <button class="btn btn-primary btn-block text-white btn-user" type="submit">Add Shift</button>
+                                <button class="btn btn-primary btn-block text-white btn-user" type="submit">Add Shift</button>
                             <hr>
                             </div>
                         </form>
@@ -57,7 +57,33 @@
 </div>
 
 
-<script> function TimeH() {
+<script>
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("datefield").setAttribute("min", today);
+
+    const picker = document.getElementById('datefield');
+    picker.addEventListener('input', function(e){
+        var day = new Date(this.value).getUTCDay();
+        if([1,2,3,4,5,6].includes(day)){
+            e.preventDefault();
+            this.value = '';
+            alert('Choose a Saturday');
+        }
+    });
+
+
+    function TimeH() {
     var Ehour = document.getElementById("Ehour").value;
     document.getElementById("Shour").setAttribute("max", Ehour)
     }

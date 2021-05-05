@@ -29,6 +29,7 @@
                                             <th>Experience</th>
                                             <th>Date of employment</th>
                                             <th>Active</th>
+                                            <th>Delete</th>
                                         </tr>
                                     </thead>
                                     <%i.forEach(function(i){%>
@@ -42,6 +43,7 @@
                                             <td>
                                                 <%if(i.SID==5){%>   <a href="/removeD/<%=i.DID%>" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-close" style="font-size:100%;color:red">&#10006;</i></a>
                                                 <% } else{%>   <a href="/addD/<%=i.DID%>" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-check" aria-hidden="true"></i></a> <%}%> </td>
+                                            <td> <button class="btn btn-danger btn-block text-white btn-user" type="submit" style="width: 80%">Delete</button></td>
                                         </tr>
                                     </tbody>
                                     <%})%>
