@@ -15,7 +15,7 @@
                                             <option value="" selected="selected"> Select Doctor</option>
                                             <%Dr.forEach(function (i){%>
 
-                                            <option value="<%=Dr.DID%>" ><%=i.DName%></option>
+                                            <option value="<%=i.DID%>" ><%=i.DName%></option>
                                             <%})%>
 
                                         </select>&nbsp;</div>
@@ -27,18 +27,18 @@
                                     <div class="col">
                                         <div class="form-group"><label for="username"><strong>Start Time</strong></label>
                                             <br>
-                                                <input type="number" id="Shour" style="width: 50px" onchange="TimeH2()" min="0" max="23" placeholder="23">
+                                                <input type="number" id="Shour" style="width: 50px" onchange="TimeH2()" min="0" max="23" placeholder="23" name="STime1">
                                                 <b>:</b>
-                                                <input type="number" id="Smin" style="width: 50px" min="0" max="59" placeholder="00">
+                                                <input type="number" id="Smin" style="width: 50px" value="0" min="0" max="59" placeholder="00" name="STime2">
                                         </div>
                                     </div>
                                     <div class="col" style="margin-left: 140px">
                                         <div class="form-group"><label for="Govid"><strong>End Time</strong></label>
                                             <br>
                                             <div>
-                                                <input type="number" id="Ehour" style="width: 50px" onchange="TimeH()" min="0" max="23" placeholder="23">
+                                                <input type="number" id="Ehour" style="width: 50px" onchange="TimeH()" min="0" max="23" placeholder="23" name="ETime1">
                                                 <b>:</b>
-                                                <input type="number" id="Emin" style="width: 50px" onchange="TimeM()" min="0" max="59" placeholder="00">
+                                                <input type="number" id="Emin" style="width: 50px" value="0" onchange="TimeM()" min="0" max="59" placeholder="00" name="ETime2">
                                             </div>
 
                                         </div>

@@ -9,6 +9,7 @@ var upload = multer()
 var logger = require('morgan');
 var sessions = require("client-sessions");
 var bodyParser = require("body-parser");
+var ejs= require("ejs")
 
 var db_config = {
     host: 'remotemysql.com',
@@ -44,15 +45,20 @@ handleDisconnect();
 var app = express();
 
 app.get('/getAppointment', function (req,res) {
-    dateA=new Date("2021-4-12")
+    dl=(req.query.Adate+"").split("-")
+    console.log(dl)
+    dateA=new Date(req.query.Adate)
+
+    console.log(dateA)
     dateA.setDate(dateA.getDate()-dateA.getDay())
-    console.log(dateA.getDate())
+    console.log(dateA.getDay())
     stri=dateA.getFullYear()+"-"+(dateA.getMonth()+1)+"-"+dateA.getDate()
+    console.log(stri)
     list = []
     doctor = []
     ress = []
 
-    connection.query('Select D.DID, D.DName, D.SPID,A.Date,A.STime,A.ETime from Doctors as D INNER JOIN DoctorAvailability as A on D.DID =A.DID  ', [req.query.SP, req.query.Adate], function (error, results, fields) {
+    connection.query('Select D.DID, D.DName, D.SPID,A.Date,A.STime,A.ETime from Doctors as D INNER JOIN DoctorAvailability as A on D.DID =A.DID  where A.Date=?', [stri], function (error, results, fields) {
         if (error) throw error;
         connection.query('Select D.DID, D.DName, D.SPID, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D Inner join Appointments as AP on AP.DID=D.DID  ', function (error2, results2, fields) {
             if (error2) throw error2;
@@ -110,14 +116,8 @@ function toM(p1, p2) {
     var m2 = (+te2[0]) * 60 + (+te2[1]);
     return m1 - m2
 }
-app.get('/data', function (req,res) {
-    console.log(req)
-    res.sendFile(path.join(__dirname,'views','data.ejs'))
-})
-app.post('/data', function (req,res) {
-    console.log(req)
-    res.sendFile(path.join(__dirname,'views'))
-})
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -135,7 +135,18 @@ app.get('/', (function (req, res) {
         console.log("this is going all on ")
     res.render("index", {userID: req.User.userID, type: req.User.type});}
 }));
-
+app.post('/test', function (req,res){
+    console.log(req.body)
+})
+app.post('/data', function (req,res) {
+    console.log(req.body)
+    var some = ejs.compile(path.join(__dirname,'views'))
+    var ht = some(req.body.list)
+    tl= JSON.parse(req.body.list)
+    console.log(tl)
+    res.render('data',{listD:tl}
+    )
+})
 app.get('/AddDoctor', function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         connection.query("select CID,Cname from Cities", function (error, results, fields) {
@@ -503,6 +514,7 @@ app.post("/register", function (req, res) {
 
     connection.query('insert into Users () values(null,?,?,?,"Patient",?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)', [req.body.Fname, req.body.Lname, req.body.GovID, req.body.Uname, result, req.body.Gender, req.body.DoB, req.body.ContactN, req.body.Building + ", " + req.body.Street + ", " + req.body.City, req.body.Email, req.body.City], function (error, results, fields) {
         if (error) throw error;
+        res.redirect("/login")
     });
 
     res.redirect("/");
@@ -573,6 +585,7 @@ app.post("/AddManager", function (req, res) {
             if (error) throw error;
             connection.query('insert into Managers () values(null,?,5,?)', [results.insertId, req.body.HID], function (erro, result, field) {
                 if (erro) throw erro;
+                res.redirect("/ManagersPage")
             });
         });
     }
@@ -581,13 +594,14 @@ app.post("/AddHospital", function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         connection.query('insert into Hospitals () values(null,?,?,?)', [req.body.HName, req.body.Location, req.body.CID], function (error, results, fields) {
             if (error) throw error;
+            res.redirect("/HospitalsPage")
         })
     }
 
 })
 app.post("/AddShift", function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
-        connection.query('insert into DoctorAvailabiulity() values(?,?,?,?,?)', [req.body.HID,req.body.DID,req.body.DoB,req.body.STime,req.body.ETime], function (error, results, fields) {
+        connection.query('insert into DoctorAvailability() values(?,?,?,?)', [req.body.DID,req.body.DoB,req.body.STime1+":"+req.body.STime2+"00:00",req.body.ETime1+":"+req.body.ETime2+":00"], function (error, results, fields) {
             if (error) throw error;
             res.redirect("/DoctorAvailability")
 
