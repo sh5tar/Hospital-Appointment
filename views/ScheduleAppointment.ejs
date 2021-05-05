@@ -19,7 +19,8 @@
                             </select>
                         </div>
                          <div class="col">
-                            <label>Date of Appointment</label><input class="form-control" id="date" type="date" name="DoB"  onchange="fun()">
+                             <label>Date of Appointment</label>
+                             <input class="form-control" id="datefield" type='date' min='1899-01-01' max='2000-13-13'>
                             </div>
                         <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="HID" id="HID" onchange="fun()">
                                 <option value="" selected="selected"> Select city</option>
@@ -47,7 +48,21 @@
 
 
 <script>
-    import ejs from "../node_modules/ejs/ejs.min.js";
+
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10){
+        dd='0'+dd
+    }
+    if(mm<10){
+        mm='0'+mm
+    }
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("datefield").setAttribute("min", today);
+
     function fun() {
         if (document.getElementById("SP").value!="" & document.getElementById("HID").value!="" &document.getElementById("date")!=""){
         // Grab the template

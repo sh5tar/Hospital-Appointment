@@ -163,6 +163,16 @@ app.get('/AddManager', (function (req, res) {
         res.redirect("/")
     }
 }));
+app.get('/Appointment', (function (req, res) {
+    if (req.User.type == "Admin" || req.User.type == "Manager") {
+        connection.query("select CID,Cname from Cities", function (error, results, fields) {
+            if (error) throw error;
+            res.render("Appointment", {Cities: results, userID: req.User.userID, type: req.User.type});
+        })
+    } else {
+        res.redirect("/")
+    }
+}));
 app.get('/AddHospital', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         connection.query("select CID,Cname from Cities", function (error, results, fields) {
