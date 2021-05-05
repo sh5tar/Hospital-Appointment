@@ -11,20 +11,20 @@
                     <div class="form-row">
                         <div class="col">
                             <label>Specialty&nbsp; </label><br>
-                            <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="SPID">
+                            <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" id="SP" onchange="fun()" name="SPID">
                                 <option value="" selected="selected"> Select Specialty</option>
                                 <%SP.forEach(function (i){%>
-                                <option value="<%=i.SPID%>>" ><%=i.Specialty%></option>
+                                <option value="<%=i.SPID%>" ><%=i.Specialty%></option>
                                 <%})%>
                             </select>
                         </div>
                          <div class="col">
-                            <label>Date of Appointment</label><input class="form-control" id="DoB" type="date" name="DoB">
+                            <label>Date of Appointment</label><input class="form-control" id="date" type="date" name="DoB"  onchange="fun()">
                             </div>
-                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="CID">
+                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="HID" id="HID" onchange="fun()">
                                 <option value="" selected="selected"> Select city</option>
-                                <%Cities.forEach(function (i){%>
-                                <option value="<%=i.CID%>>" ><%=i.Cname%></option>
+                                <%Hos.forEach(function (i){%>
+                                <option value="<%=i.HID%>" ><%=i.HName%></option>
                                 <%})%>
 
                             </select>&nbsp;
@@ -37,36 +37,8 @@
                             <div class="card-header py-3">
                                 <p class="text-primary m-0 font-weight-bold">Appointments</p>
                             </div>
-                            <div class="card-body">
-                                <form method="post" action="ScheduleAppointment">
-                                    <div class="col">
-                                        <div class="form-row">
-                                            <div class="col"><label class="col-form-label" style="color: var(--blue);font-size: 18px;font-family: Roboto, sans-serif;letter-spacing: 1px;">Tuesday 13 April 2021</label></div>
-                                        </div>
-                                        <%listD.forEach(function(i){%>
-                                        <div class="form-row" style="margin-bottom: 22px;margin-top: 0px;">
-                                            <div class="col-auto align-self-start" style="text-align: center;"><img class="rounded-circle" height="100" width="100" src="/Images/Doctor2.PNG"></div>
-                                            <div class="col">
+                            <div class="card-body" id="addCon">
 
-                                                <div class="form-row">
-                                                    <div class="col"><label class="col-form-label" style="color: var(--blue);font-family: Roboto, sans-serif;">DR. <%=i[1].DName%></label></div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <%i[0].forEach(function(s){%>
-                                                    <%if (s[1]==0){%>
-                                                    <div class="col-auto" style="margin: 5px 0px;"><button class="btn btn-outline-primary" type="button" style="height: 27px;font-size: 15px;line-height: 0;width: 74.4219px;" value="<%=s[0]%>"><%=s[0].slice(0,-3)%></button></div>
-
-                                                        <%}})%>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <%})%>
-
-                            <div class="card-body">
-                                <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Book Appointment</a>
-                            </div>
-                                    </div>
-                                </form>
                         </div>
 
                 </div>
@@ -74,5 +46,36 @@
         </div>
 
 
+<script>
+    import ejs from "../node_modules/ejs/ejs.min.js";
+    function fun() {
+        if (document.getElementById("SP").value!="" & document.getElementById("HID").value!="" &document.getElementById("date")!=""){
+        // Grab the template
+        $.get('/data', function (template) {
+            // Compile the EJS template.
+            var func = ejs.compile(template);
 
+            // Grab the data
+            $.get('/getAppointment', function (data) {
+                // Generate the html from the given data.
+                var html = func(data);
+                $('#addCon').html(html);
+            });
+        });
+    }}
+    function getthis(){
+    if (document.getElementById("SP").value!="" & document.getElementById("HID").value!="" &document.getElementById("date")!=""){
+    var path = '/getAppointment?SP='+document.getElementById("SP").value+"&HID="+document.getElementById("HID").value+"&Adate="+document.getElementById("date").value
+    $.ajax(path,{ success: function (data, status, xhr) { $("#addCon").load('/data',[data],meth)
+
+
+    } });
+    }}
+    function f() {
+        $.ajax('/data',{success:function (data,status,xhr){
+            return data
+            }})
+
+    }
+</script>
 <%- include('partials/footer'); -%>

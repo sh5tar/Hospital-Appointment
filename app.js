@@ -43,6 +43,54 @@ function handleDisconnect() {
 handleDisconnect();
 var app = express();
 
+app.get('/getAppointment', function (req,res) {
+    dateA=new Date("2021-4-12")
+    dateA.setDate(dateA.getDate()-dateA.getDay())
+    console.log(dateA.getDate())
+    stri=dateA.getFullYear()+"-"+(dateA.getMonth()+1)+"-"+dateA.getDate()
+    list = []
+    doctor = []
+    ress = []
+
+    connection.query('Select D.DID, D.DName, D.SPID,A.Date,A.STime,A.ETime from Doctors as D INNER JOIN DoctorAvailability as A on D.DID =A.DID  ', [req.query.SP, req.query.Adate], function (error, results, fields) {
+        if (error) throw error;
+        connection.query('Select D.DID, D.DName, D.SPID, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D Inner join Appointments as AP on AP.DID=D.DID  ', function (error2, results2, fields) {
+            if (error2) throw error2;
+            ress = results2
+            for (i = 0; i < results.length; i++) {
+                DID = results[i].DID
+                len = toM(results[i].ETime, results[i].STime)
+                part = len / 20
+
+                for (x = 0; x < part; x++) {
+                    time = new Date(results[i].STime)
+                    var te1 = results[i].STime.split(':');
+                    var m1 = (+te1[0]) * 60 + (+te1[1]) + 20 * x;
+                    if (m1 % 60 == 0) ST = Math.floor(m1 / 60) + ":00:00"
+                    else ST = Math.floor(m1 / 60) + ":" + m1 % 60 + ":00"
+                    slot = [ST, 0, DID]
+                    for (s = 0; s < ress.length; s++) {
+                        var te2 = ress[s].ATime.split(':');
+                        test = (+te2[0]) * 60 + (+te2[1]);
+                        if (test == m1 && DID == ress[s].DID) {
+                            slot = [ST, 1]
+                            break;
+                        }
+                    }
+
+                    doctor.push(slot)
+
+                }
+                list.push([doctor, results[i]])
+                doctor = []
+            }
+            res.send(list)
+        });
+
+    })
+
+})
+
 app.use(sessions({
     cookieName: 'User',
     secret: 'AHMADISHERE',
@@ -62,7 +110,14 @@ function toM(p1, p2) {
     var m2 = (+te2[0]) * 60 + (+te2[1]);
     return m1 - m2
 }
-
+app.get('/data', function (req,res) {
+    console.log(req)
+    res.sendFile(path.join(__dirname,'views','data.ejs'))
+})
+app.post('/data', function (req,res) {
+    console.log(req)
+    res.sendFile(path.join(__dirname,'views'))
+})
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -203,7 +258,7 @@ app.get('/ScheduleAppointment', function (req, res) {
                 if (error2) throw error2;
                 connection.query('Select * from Specialty',function (error3, results3, fields) {
                     if (error3) throw error3;
-                    connection.query('Select * from Cities', [req.body.SP, req.body.Adate], function (error4, results4, fields) {
+                    connection.query('Select * from Hospitals', [req.body.SP, req.body.Adate], function (error4, results4, fields) {
                         if (error4) throw error4;
                     ress = results2
                     for (i = 0; i < results.length; i++) {
@@ -226,11 +281,6 @@ app.get('/ScheduleAppointment', function (req, res) {
                                     break;
                                 }
                             }
-                            /*connection.query('Select D.DID, D.DName, D.SPID, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D Inner join Appointments as AP on AP.DID=D.DID  Where D.SPID=? and A.ADate=? and D.DID=?',[req.body.SP, req.body.Adate,DID], function (error, results2, fields) {
-                              if (error) throw error;
-                              slot=[S,0,resutls.DID]
-                            });
-                            */
 
                             doctor.push(slot)
 
@@ -243,7 +293,7 @@ app.get('/ScheduleAppointment', function (req, res) {
                         listD: list,
                         userID: req.User.userID,
                         type: req.User.type,
-                        Cities:results4
+                        Hos:results4
                     })
                 });
             });
@@ -502,7 +552,7 @@ app.post("/AddDoctor", upload.array('img', 6), function (req, res) {
             });
         });
     }else{
-        res.redirect("/")
+        res.redirect("/?massage=doctor has been added ")
     }
 });
 app.post("/AddManager", function (req, res) {
