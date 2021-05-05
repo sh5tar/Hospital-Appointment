@@ -335,7 +335,9 @@ app.get('/register', function (req, res) {
     if (req.User.userID) {
         res.redirect("/");
     } else {
-        res.render("register", {userID: 0, type: null});
+        connection.query("select * from Cities", [req.User.userID], function (error, results, fields) {
+            res.render("register", {userID: 0, type: null ,Cities:results});
+        })
     }
 
 });
@@ -625,7 +627,7 @@ app.post("/ContactEdit", function (req, res) {
     }
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('server started in port:  ' + PORT));
 module.exports = app;
 /*
