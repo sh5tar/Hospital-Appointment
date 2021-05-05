@@ -78,13 +78,6 @@
                                             <input class="form-control" type="Password" id="repeatPassword" name="RepeatPassword"></div>
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="col">
-                                        <form action="/action_page.php">
-                                            <input type="file" id="myFile" name="filename">
-                                        </form>
-                                    </div>
-                                </div>
                             </div>
                             <button class="btn btn-primary btn-block text-white btn-user" id="button" type="submit">Add Manager</button>
                             <hr>
@@ -106,8 +99,7 @@
         } else if (password != confirmPassword) {
             alert("Password didn't match, try again.");
             return false
-        } else if (password == confirmPassword) {
-            alert("Password Match");
+        } else {
             return true
         }
     }

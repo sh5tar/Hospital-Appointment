@@ -27,7 +27,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-group"><label for="Govid"><strong>Government ID</strong></label>
-                                                <input class="form-control" type="text" id="govid" name="GovID" minlength="10" maxlength="10" required></div>
+                                                <input class="form-control" type="number" id="govid" name="GovID" minlength="10" maxlength="10" required></div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -75,15 +75,8 @@
                                                 <input class="form-control" type="Password" id="repeatPassword" name="RepeatPassword" required></div>
                                         </div>
                                     </div>
-                                    <div class="form-row">
-                                        <div class="col">
-                                            <form action="/action_page.php">
-                                                <input type="file" id="myFile" name="filename" required>
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
-                                <button class="btn btn-primary btn-block text-white btn-user" type="submit">Add Manager</button>
+                                <button class="btn btn-primary btn-block text-white btn-user" type="submit">Submit</button>
                                 <hr>
                             </form>
                             <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div>
@@ -105,8 +98,7 @@
         } else if (password != confirmPassword) {
             alert("Password didn't match, try again.");
             return false
-        } else if (password == confirmPassword) {
-            alert("Password Match");
+        } else {
             return true
         }
     }
