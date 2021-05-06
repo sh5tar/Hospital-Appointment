@@ -14,6 +14,10 @@
                                         <h4 class="text-dark mb-4">Welcome Back!</h4>
                                     </div>
                                     <form class="user" action="/login" method="post">
+                                        <%if(typeof (error)!="undefined"){%>
+
+                                        <label style="color: red"><%= error%></label>
+                                        <%}%>
                                         <div class="form-group"><input class="form-control form-control-user"  id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Username..." name="User"></div>
                                         <div class="form-group"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="Password"></div>
                                         <div class="form-group">

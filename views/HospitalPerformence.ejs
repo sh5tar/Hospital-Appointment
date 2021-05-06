@@ -12,23 +12,30 @@
                                 <h6 class="text-primary font-weight-bold m-0">Monthly Appointments per Specialty</h6>
                             </div>
                             <div class="card-body">
-                                <div><canvas data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Specialty #1&quot;,&quot;Specialty #2&quot;,&quot;Specialty #3&quot;,&quot;Specialty #4&quot;,&quot;Specialty #5&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Appointments&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;borderWidth&quot;:&quot;0&quot;,&quot;data&quot;:[&quot;10&quot;,&quot;25&quot;,&quot;23&quot;,&quot;10&quot;,&quot;12&quot;,&quot;5&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}"></canvas></div>
+                                <div><canvas data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[<%i.forEach(function (i){%>&quot;<%=i.Specialty%>&quot;<%})%>],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Appointments&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;borderWidth&quot;:&quot;0&quot;,&quot;data&quot;:[<%i.forEach(function (i){%>&quot;<%=i.count%>&quot;<%})%>,&quot;25&quot;,&quot;23&quot;,&quot;10&quot;,&quot;12&quot;,&quot;5&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}"></canvas></div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-md-6 col-xl-3 mb-4">
+                        <%num.forEach(function (i) { %>
                         <div class="card shadow border-left-primary py-2">
+
                             <div class="card-body">
                                 <div class="row align-items-center no-gutters">
                                     <div class="col mr-2">
-                                        <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span>Monthly Appointments</span></div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>213</span></div>
+                                        <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span>Number of <%=i.Specialty%></span></div>
+                                        <div class="text-dark font-weight-bold h5 mb-0"><span><%=i.count%></span></div>
                                     </div>
                                     <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
                                 </div>
+
                             </div>
+
                         </div>
+                        <%})%>
                     </div>
+
                 </div>
             </div>
         </div>

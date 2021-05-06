@@ -19,7 +19,7 @@
                             </select>
                         </div>
                          <div class="col">
-                            <label>Date of Appointment</label><input class="form-control" id="date" type="date" name="DoB"  onchange="fun()">
+                            <label>Date of Appointment</label><input class="form-control" id="date" type="date" name="DoB" value="" onchange="fun()">
                             </div>
                         <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="HID" id="HID" onchange="fun()">
                                 <option value="" selected="selected"> Select city</option>
@@ -62,8 +62,9 @@
     document.getElementById("datefield").setAttribute("min", today);
 
 
+
     function fun() {
-        if (document.getElementById("SP").value!="" & document.getElementById("HID").value!="" &document.getElementById("date")!=""){
+        if (document.getElementById("SP").value!="" & document.getElementById("HID").value!="" &document.getElementById("date").value!=""){
             var path = '/getAppointment?SP='+document.getElementById("SP").value+"&HID="+document.getElementById("HID").value+"&Adate="+document.getElementById("date").value
             // Grab the template
             $.get(path, function (data) {

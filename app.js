@@ -43,7 +43,6 @@ function handleDisconnect() {
 
 handleDisconnect();
 var app = express();
-
 app.get('/getAppointment', function (req,res) {
     dl=(req.query.Adate+"").split("-")
     console.log(dl)
@@ -58,9 +57,9 @@ app.get('/getAppointment', function (req,res) {
     doctor = []
     ress = []
 
-    connection.query('Select D.DID, D.DName, D.SPID,A.Date,A.STime,A.ETime from Doctors as D INNER JOIN DoctorAvailability as A on D.DID =A.DID  where A.Date=?', [stri], function (error, results, fields) {
+    connection.query('Select D.DID, D.DName, D.SPID,A.Date,A.STime,A.ETime, D.HID from Doctors as D INNER JOIN DoctorAvailability as A on D.DID =A.DID  where A.Date=? and D.HID=? and D.SPID=?', [stri,req.query.HID,req.query.SP], function (error, results, fields) {
         if (error) throw error;
-        connection.query('Select D.DID, D.DName, D.SPID, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D Inner join Appointments as AP on AP.DID=D.DID  ', function (error2, results2, fields) {
+        connection.query('Select D.DID, D.DName, D.SPID, AP.ADate,AP.ATime,AP.Length,AP.Status from Doctors as D Inner join Appointments as AP on AP.DID=D.DID where D.HID=? and D.SPID=? ',[req.query.HID,req.query.SP], function (error2, results2, fields) {
             if (error2) throw error2;
             ress = results2
             for (i = 0; i < results.length; i++) {
@@ -125,7 +124,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (function (req, res) {
     if(req.User.type){
-        connection.query("select * from Appointments where UID=? and Status=5 ",[req.User.userID],function (error,results,fields){
+        connection.query("select * from Appointments where UID=? and Status=3 ",[req.User.userID],function (error,results,fields){
             if(error)throw error
             console.log(results)
             console.log("you made here")
@@ -135,9 +134,6 @@ app.get('/', (function (req, res) {
         console.log("this is going all on ")
     res.render("index", {userID: req.User.userID, type: req.User.type});}
 }));
-app.post('/test', function (req,res){
-    console.log(req.body)
-})
 app.post('/data', function (req,res) {
     console.log(req.body)
     var some = ejs.compile(path.join(__dirname,'views'))
@@ -207,7 +203,7 @@ app.get('/DoctorsPage', (function (req, res) {
 }));
 app.get('/DoctorAvailability', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
-        connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,A.Date,A.STime,A.ETime  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN DoctorAvailability as A on A.DID=Doctors.DID where A.Date>=  CURDATE()", [req.User.userID], function (error, results, fields) {
+        connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,A.Date,A.STime,A.ETime, A.DAID  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN DoctorAvailability as A on A.DID=Doctors.DID where A.Date>=  CURDATE() ", [req.User.userID], function (error, results, fields) {
             if (error) throw error;
             res.render("DoctorAvailability", {i: results, userID: req.User.userID, type: req.User.type});
 
@@ -336,10 +332,16 @@ app.get('/DoctorPerformence', function (req, res) {
         res.redirect("/")
     }
 });
-app.get('/HospitalPerformence', function (req, res) {
+app.get('/HospitalPerformence/:id', function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
-        res.render("HospitalPerformence", {userID: req.User.userID, type: req.User.type});
-    } else {
+        connection.query("SELECT COUNT(A.AID) as count ,S.Specialty FROM Appointments as A inner JOIN Doctors as D on D.DID= A.DID inner join Specialty as S on D.SPID=S.SPID WHERE A.HID=?  GROUP by D.SPID", [req.params.id], function (error, results, fields) {
+            if (error) throw error
+            connection.query("select COUNT(D.DID) as count , S.Specialty FROM Doctors as D inner join Specialty as S on S.SPID=D.SPID  where D.SID =5 and D.HID =? group by D.SPID", [req.params.id], function (error1, results1, fields) {
+                if (error1) throw error1
+                res.render("HospitalPerformence", { num: results1,i:results,userID: req.User.userID, type: req.User.type});
+        })
+    })
+        } else {
         res.redirect("/")
     }
 });
@@ -459,6 +461,17 @@ app.get("/addM/:id", function (req, res) {
     }
     else res.redirect("/")
 });
+app.get("/deleteA/:id", function (req, res) {
+
+    if (req.User.type == "Manager" || req.User.type == "Admin") {
+        connection.query("DELETE FROM DoctorAvailability  WHERE DAID=? ", [req.params.id], function (error, results, fields) {
+            if (error) throw error;
+            res.redirect("/DoctorAvailability")
+        });
+    }
+    else res.redirect("/")
+});
+
 
 app.post("/login", function (req, res) {
     var result;
@@ -504,7 +517,7 @@ app.post("/login", function (req, res) {
                 res.redirect("/");
             }
         } else
-            res.render("login", {error: "username or password is wrong"});
+            res.render("login", {error: "username or password is wrong",userID: req.User.userID, type: req.User.type});
     });
 
 });
@@ -622,9 +635,9 @@ app.post("/AddShift", function (req, res) {
 });
 app.post("/Appointments-Schedule", function (req, res) {
     if (req.User.userID) {
-        connection.query('insert into Appointments() values(null,?,?,?,?,?,20,3)', [req.body.SP, req.body.Adate], function (error, results, fields) {
+        connection.query('insert into Appointments() values(null,?,?,?,?,?,20,3)', [req.User.userID,req.body.DIDn,req.body.HIDn,req.body.DoBn,req.body.timen], function (error, results, fields) {
             if (error) throw error;
-            res.render("/", { userID: req.User.userID, type: req.User.type})
+            res.redirect("/")
 
         });
     } else {
