@@ -15,6 +15,7 @@
 <%if(type){%>
 
 <div class="container-fluid">
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="text-primary font-weight-bold m-0">Upcoming Appointments</h6>
@@ -41,6 +42,39 @@
             <%}%>
         </ul>
     </div>
-</div>
 <%}%>
+</div>
+<%if(type=="Doctor"&type=="Admin"){%>
+
+<div class="container-fluid">
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="text-primary font-weight-bold m-0">Upcoming Appointments</h6>
+        </div>
+        <ul class="list-group list-group-flush">
+            <%if(i.length){%>
+            <%s.forEach(function (s) { %>
+
+            <li class="list-group-item">
+                <div class="row align-items-center no-gutters">
+                    <div class="col mr-2">
+                        <h6 class="mb-0"><strong>you have an paient</strong></h6><span class="text-xs"><%=s.ATime%></span>
+                    </div>
+                </div>
+            </li>
+            <%})}else{%>
+                <li class="list-group-item">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col mr-2">
+                            <h6 class="mb-0"><strong>You don't have any Paients</strong></h6>
+                        </div>
+                    </div>
+                </li>
+            <%}%>
+        </ul>
+    </div>
+
+</div><%}%>
+
 <%- include('partials/footer'); -%>

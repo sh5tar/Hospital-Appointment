@@ -11,17 +11,17 @@
                         <form class="user" action="/AddShift" method="post">
                             <div class="card-body">
                                 <div class="form-row">
-                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>City&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="DID">
+                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>Doctor&nbsp; </label><br> <select style="width: 200px;" class="form-control form-control-sm custom-select custom-select-sm" name="DID">
                                             <option value="" selected="selected"> Select Doctor</option>
                                             <%Dr.forEach(function (i){%>
 
-                                            <option value="<%=Dr.DID%>" ><%=i.DName%></option>
+                                            <option value="<%=i.DID%>" ><%=i.Fname+" "+i.Lname%></option>
                                             <%})%>
 
                                         </select>&nbsp;</div>
                                     <div class="col">
                                         <div class="col-sm-12 mb-12 mb-sm-12"><label>Date</label>
-                                            <input class="form-control" id="datefield" type='date' min='1899-01-01' max='2000-13-13'>
+                                            <input class="form-control" id="datefield" type='date' min='1899-01-01' max='2000-13-13' name="DoB">
                                     </div>
                                 </div>
                             </div>
@@ -29,18 +29,18 @@
                                     <div class="col">
                                         <div class="form-group"><label for="username"><strong>Start Time</strong></label>
                                             <br>
-                                                <input type="number" id="Shour" onchange="TimeH2()" min="0" max="23" placeholder="23">
+                                                <input type="number" id="Shour" onchange="TimeH2()" min="0" max="23" placeholder="23" name="STime1">
                                                 <b>:</b>
-                                                <input type="number" id="Smin" min="0" max="59" placeholder="00">
+                                                <input type="number" id="Smin" min="0" max="59" placeholder="00" value="0" name="STime2">
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="form-group"><label for="Govid"><strong>End Time</strong></label>
                                             <br>
                                             <div>
-                                                <input type="number" id="Ehour" onchange="TimeH()" min="0" max="23" placeholder="23">
+                                                <input type="number" id="Ehour" onchange="TimeH()" min="0" max="23" placeholder="23" name="ETime1">
                                                 <b>:</b>
-                                                <input type="number" id="Emin" onchange="TimeM()" min="0" max="59" placeholder="00">
+                                                <input type="number" id="Emin" onchange="TimeM()" min="0" max="59" placeholder="00" value="0" name="ETime2">
                                             </div>
                                         </div>
                                     </div>
