@@ -173,7 +173,10 @@ app.get('/AddManager', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         connection.query("select CID,Cname from Cities", function (error, results, fields) {
             if (error) throw error;
-            res.render("AddManager", {Cities: results, userID: req.User.userID, type: req.User.type});
+            connection.query("select * from Hospitals", function (error, results1, fields) {
+                if (error) throw error;
+            res.render("AddManager", {HP:results1,Cities: results, userID: req.User.userID, type: req.User.type});
+        })
         })
     } else {
         res.redirect("/")
@@ -662,7 +665,7 @@ app.post("/AddManager", function (req, res) {
 });
 app.post("/AddHospital", function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
-        connection.query('insert into Hospitals () values(null,?,?,?)', [req.body.HName, req.body.Location, req.body.CID], function (error, results, fields) {
+        connection.query('insert into Hospitals () values(null,?,?,?,5)', [req.body.HName, req.body.Location, req.body.CID], function (error, results, fields) {
             if (error) throw error;
             res.redirect("/HospitalsPage")
         })
