@@ -36,7 +36,7 @@
                                     <td>
                                         <%if(i.SID==5){%>   <a href="/removeM/<%=i.MID%>" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-close" style="font-size:100%;color:red">&#10006;</i></a>
                                         <% } else{%>   <a href="/addM/<%=i.MID%>" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-check" aria-hidden="true"></i></a> <%}%> </td>
-                                    <td> <a href="deleteA/<%=i.MID%>"><button class="btn btn-danger btn-block text-white btn-user" type="submit" style="width: 60%">Delete</button></a></td>
+                                    <td> <a href="deleteM/<%=i.MID%>"><button class="btn btn-danger btn-block text-white btn-user" type="submit" style="width: 60%">Delete</button></a></td>
                                 </tr>
                                 </tbody>
                                 <%})%>

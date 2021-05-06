@@ -11,3 +11,7 @@ Mustafa:
 - Make booking an appointment work
 
 - Authorization
+
+- Add data (GP, Qatif, one week)
+
+- register account doesn't work!

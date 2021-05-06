@@ -1,7 +1,7 @@
 <form method="post" action="Appointments-Schedule">
     <div class="col">
         <div class="form-row">
-            <div class="col"><label class="col-form-label" style="color: var(--blue);font-size: 18px;font-family: Roboto, sans-serif;letter-spacing: 1px;">Tuesday 13 April 2021</label></div>
+            <div class="col"><label class="col-form-label" style="color: var(--blue);font-size: 18px;font-family: Roboto, sans-serif;letter-spacing: 1px;" id="Da"></label></div>
         </div>
         <%listD.forEach(function(i){%>
         <div class="form-row" style="margin-bottom: 22px;margin-top: 0px;">
@@ -35,6 +35,8 @@
     </div>
 </form>
 <script>
+
+
     function func(a,b) {
         document.getElementById("timen").value=a;
         document.getElementById("HIDn").value=document.getElementById("HID"+b).value;

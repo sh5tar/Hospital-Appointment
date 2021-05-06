@@ -1,5 +1,9 @@
 
 <%- include('partials/header'); -%>
+
+<%  dd = new Date(Info[0].ADate)
+date1 = dd.getFullYear() + "/" + dd.getMonth() + "/" + dd.getDate()%>
+
 <div class="container-fluid">
     <div class="card-header">
         <h3 class="text-dark mb-4">Appointment Details</h3>
@@ -11,26 +15,26 @@
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group"><label><strong>Doctor</strong></label>
-                                    <input class="form-control" type="text" id="dname" name="dname" readonly></div>
+                                    <input class="form-control" type="text" id="dname" value="<%= Info[0].DName%>" name="dname" readonly></div>
                             </div>
                             <div class="col">
                                 <div class="form-group"><label><strong>Patient</strong></label>
-                                    <input class="form-control" type="text" id="pname" name="pname" readonly></div>
+                                    <input class="form-control" type="text" id="pname" value="<%= Info[0].Fname + " " + Info[0].Lname%>" name="pname" readonly></div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group"><label><strong>Date</strong></label>
-                                    <input class="form-control" type="text" name="Username" readonly></div>
+                                    <input class="form-control" type="text" value="<%= date1%>" name="date" readonly></div>
                             </div>
                             <div class="col">
                                 <div class="form-group"><label for="time"><strong>Time</strong></label>
-                                    <input class="form-control" type="text" readonly></div>
+                                    <input class="form-control" type="text" value="<%= Info[0].ATime%>" name="time" readonly></div>
                             </div>
                         </div>
 
                     </div>
-                <button class="btn btn-danger btn-block text-white btn-user" type="submit">Cancel Appointment</button>
+                <a href="/deleteAp/<%= Info[0].AID%>"><button class="btn btn-danger btn-block text-white btn-user" type="submit">Cancel Appointment</button> </a>
                 </div>
             </div>
         </div>

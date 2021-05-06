@@ -182,11 +182,11 @@ app.get('/AddManager', (function (req, res) {
         res.redirect("/")
     }
 }));
-app.get('/Appointment', (function (req, res) {
+app.get('/Appointment/:ID', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
-        connection.query("select CID,Cname from Cities", function (error, results, fields) {
+        connection.query("SELECT D.DName, Users.Fname,Users.Lname,A.ADate,A.ATime,A.AID from Appointments as A inner join Doctors as D on A.DID=D.DID inner join Users on Users.UID =A.UID  where A.AID=?", [req.params.ID], function (error, results, fields) {
             if (error) throw error;
-            res.render("Appointment", {Cities: results, userID: req.User.userID, type: req.User.type});
+            res.render("Appointment", {Info: results, userID: req.User.userID, type: req.User.type});
         })
     } else {
         res.redirect("/")
@@ -491,6 +491,16 @@ app.get("/deleteA/:id", function (req, res) {
     }
     else res.redirect("/")
 });
+app.get("/deleteAp/:id", function (req, res) {
+
+    if (req.User.userID) {
+        connection.query("DELETE FROM Appointments  WHERE AID=? ", [req.params.id], function (error, results, fields) {
+            if (error) throw error;
+            res.redirect("/")
+        });
+    }
+    else res.redirect("/")
+});
 app.get("/deleteH/:id", function (req, res) {
 
     if (req.User.type == "Manager" || req.User.type == "Admin") {
@@ -616,7 +626,7 @@ app.post("/updateHospital", function (req, res) {
 });
 
 app.post("/AddDoctor",  function (req, res) {
-    console.log(req.body.SPID)
+    console.log(req.body)
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         var result;
         scrypt(req.body.Password, "AhmedAndMustafa", {
@@ -645,7 +655,7 @@ app.post("/AddDoctor",  function (req, res) {
 app.post("/AddManager", function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         var result;
-        scrypt(req.body.password, "AhmedAndMustafa", {
+        scrypt(req.body.Password, "AhmedAndMustafa", {
             N: 4096,
             r: 8,
             p: 1,
@@ -654,7 +664,7 @@ app.post("/AddManager", function (req, res) {
         }, function (derivedKey) {
             result = derivedKey;
         });
-        connection.query('insert into Users () values(null,?,?,?,?,"Manager",?,?,?,?,?,?,CURRENT_TIMESTAMP)', [req.body.Fname, req.body.Lname, req.body.GovID, req.body.Gender, req.body.userName, result, req.body.Dob, req.body.phoneNumber, req.body.Address, req.body.Email], function (error, results, fields) {
+        connection.query('insert into Users () values(null,?,?,?,"Manager",?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)', [req.body.Fname, req.body.Lname, req.body.GovID, req.body.Username,  result, req.body.Gender, req.body.DoB, req.body.ContactNo, req.body.Address, req.body.Email, req.body.CID], function (error, results, fields) {
             if (error) throw error;
             connection.query('insert into Managers () values(null,?,5,?)', [results.insertId, req.body.HID], function (erro, result, field) {
                 if (erro) throw erro;
