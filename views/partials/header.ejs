@@ -24,7 +24,9 @@
                     <li class="nav-item"><a class="nav-link" href="/profile"><i class="fas fa-user"></i><span>Profile</span></a></li>
                 <%}%>
                 <%if(type == "Doctor" || type == "Manager" || type == "Admin"){%>
-                <li class="nav-item"><a class="nav-link" href="/DoctorsPage"><i class="fas fa-user"></i><span>DoctorsPage</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/DoctorsPage"><i class="fas fa-user"></i><span>DoctorsPage</span></a></li>
+                <%}%>
+                <%if(type == "Manager" || type == "Admin"){%>
                     <li class="nav-item"><a class="nav-link" href="/DoctorAvailability"><i class="fas fa-user"></i><span>DoctorAvailability</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/Schedule"><i class="fas fa-table"></i><span>Schedule</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/HospitalsPage"><i class="fas fa-table"></i><span>HospitalsPage</span></a></li>
