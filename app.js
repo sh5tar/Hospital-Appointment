@@ -4,8 +4,6 @@ var path = require('path');
 var mysql = require("mysql");
 var cookieParser = require('cookie-parser');
 var scrypt = require("scrypt-async");
-var multer = require('multer')
-var upload = multer()
 var logger = require('morgan');
 var sessions = require("client-sessions");
 var bodyParser = require("body-parser");
@@ -614,7 +612,7 @@ app.post("/updateHospital", function (req, res) {
     }
 });
 
-app.post("/AddDoctor", upload.array('img', 6), function (req, res) {
+app.post("/AddDoctor",  function (req, res) {
     console.log(req.body.SPID)
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         var result;
@@ -631,7 +629,7 @@ app.post("/AddDoctor", upload.array('img', 6), function (req, res) {
             if (error) throw error;
             console.log("not there")
             console.log()
-            connection.query('insert into Doctors () values(null,?,?,?,?,?,?,5)', [results.insertId, req.body.HID, req.body.Fname, req.body.Experience, req.files[0].buffer, req.body.SPID], function (erro, result, field) {
+            connection.query('insert into Doctors () values(null,?,?,?,?,?,5)', [results.insertId, req.body.HID, req.body.Fname, req.body.Experience,  req.body.SPID], function (erro, result, field) {
                 if (erro) throw erro;
                 console.log("here")
                 res.redirect("/DoctorsPage")
