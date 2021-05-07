@@ -514,20 +514,35 @@ app.get("/deleteH/:id", function (req, res) {
 app.get("/deleteM/:id", function (req, res) {
 
     if (req.User.type == "Manager" || req.User.type == "Admin") {
-        connection.query("DELETE FROM Managers  WHERE MID=? ", [req.params.id], function (error, results, fields) {
-            if (error) throw error;
-            res.redirect("/ManagersPage")
-        });
-    }
+        connection.query("select UID From Managers where MID=?",[req.params.id], function(error1, resu,field) {
+            connection.query("DELETE FROM Managers  WHERE MID=? ", [req.params.id], function (error, results, fields) {
+                if (error) throw error;
+                connection.query('UPDATE  Users SET UserType="Patient" WHERE UID=?', [resu[0].UID], function (error, results, fields) {
+                    if (error) throw error;
+
+                res.redirect("/ManagersPage")
+            });
+        })})
+        }
     else res.redirect("/")
 });
 app.get("/deleteD/:id", function (req, res) {
 
     if (req.User.type == "Manager" || req.User.type == "Admin") {
+        connection.query("select UID From doctors where DID =?",[req.params.id], function(error1, resu,field){
+
+
         connection.query("DELETE FROM Doctors  WHERE DID=? ", [req.params.id], function (error, results, fields) {
             if (error) throw error;
+            connection.query('UPDATE  Users SET UserType="Patient" WHERE UID=?', [resu[0].UID], function (error, results, fields) {
+                if (error) throw error;
+
+
             res.redirect("/DoctorsPage")
-        });
+            });
+            });
+        })
+
     }
     else res.redirect("/")
 });
@@ -554,7 +569,7 @@ app.post("/login", function (req, res) {
             if (results[0].UserType == "Doctor") {
                 connection.query("select SID from Doctors where UID=? ", [results[0].UID], function (erro, result, field) {
                         if (error) throw error;
-                        if (result[0].StatusID == 5) {
+                        if (result[0].SID == 5) {
                             req.User.type = results[0].UserType;
                             console.log("he made it here")
                             res.redirect("/");
@@ -595,7 +610,7 @@ app.post("/register", function (req, res) {
     });
     console.log(req.body.Gender)
 
-    connection.query('insert into Users () values(null,?,?,?,"Patient",?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)', [req.body.Fname, req.body.Lname, req.body.GovID, req.body.Uname, result, req.body.Gender, req.body.DoB, req.body.ContactN, req.body.Building + ", " + req.body.Street + ", " + req.body.City, req.body.Email, req.body.City], function (error, results, fields) {
+    connection.query('insert into Users () values(null,?,?,?,"Patient",?,?,?,?,?,?,?,CURRENT_TIMESTAMP,?)', [req.body.Fname, req.body.Lname, req.body.GovID, req.body.Username, result, req.body.Gender, req.body.DoB, req.body.ContactNo,req.body.Address, req.body.Email, req.body.CID], function (error, results, fields) {
         if (error) throw error;
         res.redirect("/login")
     });

@@ -27,7 +27,11 @@
             <li class="list-group-item">
                 <div class="row align-items-center no-gutters">
                     <div class="col mr-2">
-                        <a href="/Appointment/<%= s.AID%>"><h6 class="mb-0"><strong>Appointment</strong></h6><span class="text-xs"><%=s.ATime%></span> </a>
+                        <%dd=new Date(s.ADate)
+                        dd=(dd+"").split(" ")
+
+                        %>
+                        <a href="/Appointment/<%= s.AID%>"><h6 class="mb-0"><strong>Appointment</strong></h6><span class="text-xs"> at: <%=s.ATime%><br><%=dd[0]+" "+dd[1]+" "+dd[2]+" "+dd[3]+" "%></span> </a>
                     </div>
                 </div>
             </li>
