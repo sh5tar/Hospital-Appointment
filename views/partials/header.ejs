@@ -19,8 +19,8 @@
             </a>
             <hr class="sidebar-divider my-0">
             <ul class="navbar-nav text-light" id="accordionSidebar">
-                <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-tachometer-alt"></i><span>Home</span></a></li>
                 <%if(type){%>
+                    <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-tachometer-alt"></i><span>Home</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/profile"><i class="fas fa-user"></i><span>Profile</span></a></li>
                 <%}%>
                 <%if(type == "Doctor" || type == "Manager" || type == "Admin"){%>
@@ -30,6 +30,8 @@
                     <li class="nav-item"><a class="nav-link" href="/DoctorAvailability"><i class="fas fa-user"></i><span>DoctorAvailability</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/Schedule"><i class="fas fa-table"></i><span>Schedule</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/HospitalsPage"><i class="fas fa-table"></i><span>HospitalsPage</span></a></li>
+                <%}%>
+                <%if(type == "Admin"){%>
                     <li class="nav-item"><a class="nav-link" href="/ManagersPage"><i class="fas fa-table"></i><span>ManagersPage</span></a></li>
                 <%}%>
                 <%if(userID){%>
