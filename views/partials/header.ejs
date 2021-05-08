@@ -24,15 +24,17 @@
                     <li class="nav-item"><a class="nav-link" href="/profile"><i class="fas fa-user"></i><span>Profile</span></a></li>
                 <%}%>
                 <%if(type == "Doctor" || type == "Manager" || type == "Admin"){%>
-                    <li class="nav-item"><a class="nav-link" href="/DoctorsPage"><i class="fas fa-user"></i><span>DoctorsPage</span></a></li>
-                <%}%>
+                        <li class="nav-item"><a class="nav-link" href="/AddShift"><i class="fas fa-user"></i><span>Add Shift</span></a></li>
+
+
+                    <%}%>
                 <%if(type == "Manager" || type == "Admin"){%>
-                    <li class="nav-item"><a class="nav-link" href="/DoctorAvailability"><i class="fas fa-user"></i><span>DoctorAvailability</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Schedule"><i class="fas fa-table"></i><span>Schedule</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="/HospitalsPage"><i class="fas fa-table"></i><span>HospitalsPage</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/DoctorsPage"><i class="fas fa-user"></i><span>Doctors Page</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/DoctorAvailability"><i class="fas fa-user"></i><span>Doctor Availability</span></a></li>
                 <%}%>
                 <%if(type == "Admin"){%>
-                    <li class="nav-item"><a class="nav-link" href="/ManagersPage"><i class="fas fa-table"></i><span>ManagersPage</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/HospitalsPage"><i class="fas fa-table"></i><span>Hospitals Page</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/ManagersPage"><i class="fas fa-table"></i><span>Managers Page</span></a></li>
                 <%}%>
                 <%if(userID){%>
                     <li class="nav-item"><a class="nav-link" href="/sign-out"><i class="far fa-user-circle"></i><span>Logout</span></a></li>

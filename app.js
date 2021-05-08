@@ -121,27 +121,17 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (function (req, res) {
-    if(req.User.type!="Doctor"){
+    if(req.User.type){
         connection.query("select * from Appointments where UID=? and Status=3 ",[req.User.userID],function (error,results,fields){
             if(error)throw error
-            console.log(results)
+            console.log(req.User)
             console.log("you made here")
-            res.render("index", {i:results,userID: req.User.userID, type: req.User.type});
-        })
-    }else if(req.User.type=="Doctor"){
-        connection.query("select * from Appointments where UID=? and Status=3 ",[req.User.userID],function (error,results,fields){
-            if(error)throw error
-            connection.query("select * from Appointments where DID=? and Status=3 ",[req.User.userID],function (error2,results1,fields){
-                if(error2)throw error2
-            console.log(results)
-            console.log("you made here")
-            res.render("index", {s:results1,i:results,userID: req.User.userID, type: req.User.type});
-        })
+            res.render("index", {i:results,userID: req.User.userID, type: req.User.type, HID: req.User.HID});
         })
     }
     else{
         console.log("this is going all on ")
-    res.render("index", {userID: req.User.userID, type: req.User.type});}
+    res.render("index", {userID: req.User.userID, type: req.User.type, HID: req.User.HID});}
 }));
 app.post('/data', function (req,res) {
     console.log(req.body)
@@ -160,7 +150,7 @@ app.get('/AddDoctor', function (req, res) {
                 if (error1) throw error1;
                 connection.query("select * from Hospitals", function (error2, results2, fields1) {
                     if (error2) throw error2;
-                    res.render("AddDoctor", {Sp: results1,HS:results2, Cities: results, userID: req.User.userID, type: req.User.type});
+                    res.render("AddDoctor", {Sp: results1,HS:results2, Cities: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
                 })
             })
 
@@ -175,7 +165,7 @@ app.get('/AddManager', (function (req, res) {
             if (error) throw error;
             connection.query("select * from Hospitals", function (error, results1, fields) {
                 if (error) throw error;
-            res.render("AddManager", {HP:results1,Cities: results, userID: req.User.userID, type: req.User.type});
+            res.render("AddManager", {HP:results1,Cities: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
         })
         })
     } else {
@@ -183,10 +173,10 @@ app.get('/AddManager', (function (req, res) {
     }
 }));
 app.get('/Appointment/:ID', (function (req, res) {
-    if (req.User.type == "Admin" || req.User.type == "Manager") {
+    if (req.User.type) {
         connection.query("SELECT D.DName, Users.Fname,Users.Lname,A.ADate,A.ATime,A.AID from Appointments as A inner join Doctors as D on A.DID=D.DID inner join Users on Users.UID =A.UID  where A.AID=?", [req.params.ID], function (error, results, fields) {
             if (error) throw error;
-            res.render("Appointment", {Info: results, userID: req.User.userID, type: req.User.type});
+            res.render("Appointment", {Info: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
         })
     } else {
         res.redirect("/")
@@ -196,23 +186,23 @@ app.get('/AddHospital', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         connection.query("select CID,Cname from Cities", function (error, results, fields) {
             if (error) throw error;
-            res.render("AddHospital", {Cities: results, userID: req.User.userID, type: req.User.type});
+            res.render("AddHospital", {Cities: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
         })
     } else {
         res.redirect("/")
     }
 }));
 app.get('/DoctorsPage', (function (req, res) {
-    if ( req.User.type == "Manager") {
-        connection.query("SELECT Doctors.UID,Doctors.DID,Doctors.SID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID where Doctor.HID=? ", [req.User.HID], function (error, results, fields) {
-            if (error) throw error;
-            res.render("DoctorsPage", {i: results, userID: req.User.userID, type: req.User.type});
-
-        });
-    }else if(req.User.type == "Admin"){
+    if(req.User.type == "Admin"){
         connection.query("SELECT Doctors.UID,Doctors.DID,Doctors.SID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID  ", function (error, results, fields) {
             if (error) throw error;
-            res.render("DoctorsPage", {i: results, userID: req.User.userID, type: req.User.type});
+            res.render("DoctorsPage", {i: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
+
+        });
+    } else if(req.User.type == "Manager"){
+        connection.query("SELECT Doctors.UID,Doctors.DID,Doctors.SID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID where Doctors.HID=? ", [req.User.HID], function (error, results, fields) {
+            if (error) throw error;
+            res.render("DoctorsPage", {i: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
 
         });
     }
@@ -221,10 +211,16 @@ app.get('/DoctorsPage', (function (req, res) {
     }
 }));
 app.get('/DoctorAvailability', (function (req, res) {
-    if (req.User.type == "Admin" || req.User.type == "Manager") {
+    if (req.User.type == "Admin") {
         connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,A.Date,A.STime,A.ETime, A.DAID  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN DoctorAvailability as A on A.DID=Doctors.DID where A.Date>=  CURDATE() ", [req.User.userID], function (error, results, fields) {
             if (error) throw error;
-            res.render("DoctorAvailability", {i: results, userID: req.User.userID, type: req.User.type});
+            res.render("DoctorAvailability", {i: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
+
+        });
+    }  else if (req.User.type == "Manager") {
+        connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,A.Date,A.STime,A.ETime, A.DAID  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN DoctorAvailability as A on A.DID=Doctors.DID where A.Date>=  CURDATE() and Doctors.HID=?", [req.User.HID], function (error, results, fields) {
+            if (error) throw error;
+            res.render("DoctorAvailability", {i: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
 
         });
     } else {
@@ -235,7 +231,7 @@ app.get('/Schedule', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         connection.query("SELECT Doctors.UID, Users.Fname,Users.Lname,Specialty.Specialty,Doctors.Experience,Users.DateOfCreation  from Doctors Inner JOIN Users on Users.UID=Doctors.UID Inner JOIN Specialty on Specialty.SPID=Doctors.SPID", [req.User.userID], function (error, results, fields) {
             if (error) throw error;
-            res.render("Schedule", {i: results, userID: req.User.userID, type: req.User.type});
+            res.render("Schedule", {i: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
 
         });
     } else {
@@ -245,7 +241,7 @@ app.get('/Schedule', (function (req, res) {
 app.get('/HospitalsPage', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         connection.query("SELECT HID,HName,Cname,Location,SID from Hospitals Inner JOIN Cities on Hospitals.CID = Cities.CID", function (error, results, fields) {
-            res.render("HospitalsPage", {i: results, userID: req.User.userID, type: req.User.type});
+            res.render("HospitalsPage", {i: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
 
         });
     } else {
@@ -255,7 +251,7 @@ app.get('/HospitalsPage', (function (req, res) {
 app.get('/ManagersPage', (function (req, res) {
     if (req.User.type == "Admin" || req.User.type == "Manager") {
         connection.query("SELECT Managers.SID,Managers.MID,Managers.UID, Users.Fname,Users.Lname,Hospitals.HName,Users.DateOfCreation from Managers Inner JOIN Users on Managers.UID=Users.UID Inner JOIN Hospitals on Managers.HID= Hospitals.HID", function (error, results, fields) {
-            res.render("ManagersPage", {i: results, userID: req.User.userID, type: req.User.type});
+            res.render("ManagersPage", {i: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
 
         });
     } else {
@@ -263,10 +259,10 @@ app.get('/ManagersPage', (function (req, res) {
     }
 }));
 app.get('/AddShift', (function (req, res) {
-    if ( req.User.type == "Manager") {
+    if ( req.User.type == "Manager" ) {
         connection.query("select D.DID, U.Fname,U.Lname from Doctors as D inner join Users as U on U.UID=D.UID where D.HID=? and D.SID=5",[req.User.HID], function (error, results, fields) {
             if (error) throw error;
-            res.render("AddShift", {Dr: results, userID: req.User.userID, type: req.User.type});
+            res.render("AddShift", {Dr: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
         })
 
     }
@@ -274,9 +270,16 @@ app.get('/AddShift', (function (req, res) {
         connection.query("select D.DID, U.Fname,U.Lname from Doctors as D inner join Users as U on U.UID=D.UID where  D.SID=5", function (error, results, fields) {
             if (error) throw error;
             console.log(results)
-            res.render("AddShift", {Dr: results, userID: req.User.userID, type: req.User.type});
+            res.render("AddShift", {Dr: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
         })
-    }else {
+    }     else if (req.User.type == "Doctor" ) {
+        connection.query("select D.DID, U.Fname,U.Lname from Doctors as D inner join Users as U on U.UID=D.UID where  D.SID=5 and U.UID=?", [req.User.userID], function (error, results, fields) {
+            if (error) throw error;
+            console.log(results)
+            res.render("AddShift", {Dr: results, userID: req.User.userID, type: req.User.type, HID: req.User.HID});
+        })
+    }
+    else {
         res.redirect("/")
     }
 }));
@@ -331,6 +334,7 @@ app.get('/ScheduleAppointment', function (req, res) {
                         userID: req.User.userID,
                         type: req.User.type,
                         Hos:results4
+                        , HID: req.User.HID
                     })
                 });
             });
@@ -346,7 +350,7 @@ app.get('/DoctorPerformence', function (req, res) {
             dd = new Date(results[0].DoB)
             console.log(dd)
             date1 = dd.getFullYear() + "/" + dd.getMonth() + "/" + dd.getDate()
-            res.render("DoctorPerformence", {userID: req.User.userID, type: req.User.type});
+            res.render("DoctorPerformence", {userID: req.User.userID, type: req.User.type, HID: req.User.HID});
         })
     } else {
         res.redirect("/")
@@ -358,7 +362,7 @@ app.get('/HospitalPerformence/:id', function (req, res) {
             if (error) throw error
             connection.query("select COUNT(D.DID) as count , S.Specialty FROM Doctors as D inner join Specialty as S on S.SPID=D.SPID  where D.SID =5 and D.HID =? group by D.SPID", [req.params.id], function (error1, results1, fields) {
                 if (error1) throw error1
-                res.render("HospitalPerformence", { num: results1,i:results,userID: req.User.userID, type: req.User.type});
+                res.render("HospitalPerformence", { num: results1,i:results,userID: req.User.userID, type: req.User.type, HID: req.User.HID});
         })
     })
         } else {
@@ -370,7 +374,7 @@ app.get('/login', function (req, res) {
         res.redirect("/");
     } else {
 
-        res.render("login", {userID: req.User.userID, type: req.User.type});
+        res.render("login", {userID: req.User.userID, type: req.User.type, HID: req.User.HID});
     }
 
 });
@@ -389,11 +393,6 @@ app.get("/sign-out", function (request, response) {
     request.User.type = "";
     response.redirect("/");
 });
-app.get("/blank", function (request, response) {
-    request.User.userID = "";
-    request.User.type = "";
-    response.render("blank")
-});
 app.get("/profile", function (req, res) {
     console.log(req.User)
     if (req.User.userID) {
@@ -402,7 +401,7 @@ app.get("/profile", function (req, res) {
             dd = new Date(results[0].DoB)
             console.log(dd)
             date1 = dd.getFullYear() + "/" + dd.getMonth() + "/" + dd.getDate()
-            res.render("profile", {i: results[0], DoB: date1, userID: req.User.userID, type: req.User.type})
+            res.render("profile", {i: results[0], DoB: date1, userID: req.User.userID, type: req.User.type, HID: req.User.HID})
         })
     } else {
         res.redirect("/")
@@ -415,7 +414,7 @@ app.get('/usersPage/:id', function (req, res) {
             dd = new Date(results[0].DoB)
             console.log(dd)
             date1 = dd.getFullYear() + "/" + dd.getMonth() + "/" + dd.getDate()
-            res.render("profile", {i: results[0], DoB: date1, userID: req.User.userID, type: req.User.type})
+            res.render("profile", {i: results[0], DoB: date1, userID: req.User.userID, type: req.User.type, HID: req.User.HID})
         })
     } else {
         res.redirect("/")
@@ -529,7 +528,7 @@ app.get("/deleteM/:id", function (req, res) {
 app.get("/deleteD/:id", function (req, res) {
 
     if (req.User.type == "Manager" || req.User.type == "Admin") {
-        connection.query("select UID From doctors where DID =?",[req.params.id], function(error1, resu,field){
+        connection.query("select UID From Doctors where DID =?",[req.params.id], function(error1, resu,field){
 
 
         connection.query("DELETE FROM Doctors  WHERE DID=? ", [req.params.id], function (error, results, fields) {
@@ -581,7 +580,7 @@ app.post("/login", function (req, res) {
                         if (error) throw error;
                         if (result[0].SID == 5) {
                             req.User.type = results[0].UserType;
-                            req.User.HID= results[0].HID;
+                            req.User.HID= result[0].HID;
                             console.log("he made it here")
                             res.redirect("/");
                         } else res.redirect("/");
@@ -592,7 +591,7 @@ app.post("/login", function (req, res) {
                 res.redirect("/");
             }
         } else
-            res.render("login", {error: "username or password is wrong",userID: req.User.userID, type: req.User.type});
+            res.render("login", {error: "username or password is wrong",userID: req.User.userID, type: req.User.type, HID: req.User.HID});
     });
 
 });
@@ -698,7 +697,7 @@ app.post("/AddHospital", function (req, res) {
 
 })
 app.post("/AddShift", function (req, res) {
-    if (req.User.type == "Admin" || req.User.type == "Manager") {
+    if (req.User.type == "Admin" || req.User.type == "Manager" || req.User.type == "Doctor" ) {
         connection.query('insert into DoctorAvailability() values(null,?,?,?,?)', [req.body.DID,req.body.DoB,req.body.STime1+":"+req.body.STime2+":00",req.body.ETime1+":"+req.body.ETime2+":00"], function (error, results, fields) {
             if (error) throw error;
             res.redirect("/DoctorAvailability")

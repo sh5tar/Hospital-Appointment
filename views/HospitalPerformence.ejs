@@ -12,7 +12,7 @@
                                 <h6 class="text-primary font-weight-bold m-0">Monthly Appointments per Specialty</h6>
                             </div>
                             <div class="card-body">
-                                <div><canvas data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[<%i.forEach(function (i){%>&quot;<%=i.Specialty%>&quot;<%})%>],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Appointments&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;borderWidth&quot;:&quot;0&quot;,&quot;data&quot;:[<%i.forEach(function (i){%>&quot;<%=i.count%>&quot;<%})%>,&quot;25&quot;,&quot;23&quot;,&quot;10&quot;,&quot;12&quot;,&quot;5&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}"></canvas></div>
+                                <div><canvas data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[<%i.forEach(function (i){%>&quot;<%=i.Specialty%>&quot;,<%})%>&quot;&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Appointments&quot;,&quot;backgroundColor&quot;:&quot;#4e73df&quot;,&quot;borderColor&quot;:&quot;#4e73df&quot;,&quot;borderWidth&quot;:&quot;0&quot;,&quot;data&quot;:[<%i.forEach(function (i){%>&quot;<%=i.count%>&quot;,<%})%>&quot;&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}"></canvas></div>
                             </div>
                         </div>
                     </div>
